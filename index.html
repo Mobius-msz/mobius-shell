@@ -1996,7 +1996,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
   /* ---- \u7559\u8a00\u5899\uff08giscus\uff09---- */
   var GISCUS = {
-    ready: false,
+    ready: true,
     repo: 'Mobius-msz/mobius-shell',
     repoId: 'R_kgDOVt-jcw',
     category: 'General',
@@ -2012,7 +2012,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     gs.setAttribute('data-repo-id', GISCUS.repoId);
     gs.setAttribute('data-category', GISCUS.category);
     gs.setAttribute('data-category-id', GISCUS.categoryId);
-    gs.setAttribute('data-mapping', 'pathname');
+    gs.setAttribute('data-mapping', 'specific');
+    gs.setAttribute('data-term', 'guestbook');
     gs.setAttribute('data-reactions-enabled', '1');
     gs.setAttribute('data-input-position', 'top');
     gs.setAttribute('data-theme', 'dark_dimmed');
