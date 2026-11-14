@@ -152,7 +152,7 @@ a{color:inherit;text-decoration:none}
 
       <h2>最近在做什么</h2>
 
-      <p>在画一块 <code>STM32F407VGT6</code> 的板子。从立创 EDA 画原理图、拉线、铺铜，到打样回来焊上第一颗芯片。板子上的丝印印着我的网名 Mobius——博客、板子、ID，用的都是同一个名字。</p>
+      <p>在画一块 <code>STM32F407VGT6</code> 的板子。从立创 EDA 画原理图、拉线、铺铜，到打样回来焊上第一颗芯片。丝印上印的是我的网名 Mobius——先有名字，后有板子。</p>
 
       <p>同时也在把手上的例程从<strong>标准库</strong>往 <strong>HAL 库</strong>搬。以前写 <code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE)</code>，现在得记 <code>__HAL_RCC_GPIOA_CLK_ENABLE()</code>；以前一个 <code>GPIO_InitTypeDef</code> 配到底，现在要跟 CubeMX 生成的那一大坨 <code>MX_GPIO_Init()</code> 打交道。刚上手那几天确实别扭，等把时钟树和外设句柄理顺了，反而比标准库省心——尤其是换芯片的时候，改配置不用重写整个底层。</p>
 
