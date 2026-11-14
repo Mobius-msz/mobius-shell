@@ -46,10 +46,12 @@ jobs:
                   continue
               body = it.get("body") or ""
               nick = field(body, "昵称") or it["title"].replace("[好友申请]", "").strip()
+              avatar = field(body, "头像") or (it.get("user") or {}).get("avatar_url", "")
               friends.append({
                   "nick": nick,
                   "school": field(body, "同学"),
                   "msg": field(body, "一句话"),
+                  "avatar": avatar,
                   "date": (it.get("closed_at") or it["created_at"])[:10],
               })
 
