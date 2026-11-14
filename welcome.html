@@ -122,6 +122,24 @@ a{color:inherit;text-decoration:none}
 .mbgm:hover{color:var(--yellow);border-color:var(--yellow)}
 .mbgm.on{color:#08080c;background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 24px -4px rgba(252,238,10,.8)}
 
+/* 标签 / 互动 / 评论 */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:26px 0 0}
+.tags span{padding:4px 10px;border:1px solid var(--line-soft);border-radius:999px;
+  font:400 10.5px var(--f-mono);letter-spacing:.06em;color:var(--dim)}
+.act{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  margin:30px 0 0;padding:16px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.act-info{font:400 11px var(--f-mono);letter-spacing:.04em;color:var(--faint)}
+.act-btns{display:flex;gap:10px}
+.act-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:1px solid var(--line-soft);
+  background:none;color:var(--dim);font:400 11px var(--f-sys);cursor:pointer;transition:.2s;border-radius:4px}
+.act-btn:hover{color:var(--yellow);border-color:var(--yellow)}
+.act-btn.on{color:var(--yellow);border-color:var(--yellow);background:rgba(252,238,10,.08)}
+.act-btn svg{width:14px;height:14px}
+.cmt{margin-top:34px}
+.cmt-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.cmt-head h3{font:600 15px var(--f-ui);letter-spacing:.02em}
+.cmt-head .mono{font:400 9.5px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
+
 </style>
 </head>
 <body>
@@ -183,6 +201,25 @@ a{color:inherit;text-decoration:none}
       <p>不追热点，不日更。写下来的东西，一年后回头看还愿意读，就值了。</p>
 
       <p class="sign">— Mobius · 2026.11.14 · 杭州</p>
+
+      <div class="tags"><span>#开篇</span><span>#随笔</span><span>#博客</span></div>
+
+      <div class="act">
+        <span class="act-info" id="actInfo">还没有人点赞 · 欢迎在下面留言</span>
+        <span class="act-btns">
+          <button class="act-btn" id="likeBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+            <span id="likeCount">点赞</span>
+          </button>
+          <button class="act-btn" id="cmtBtn" type="button">评论</button>
+        </span>
+      </div>
+
+      <div class="cmt" id="cmtBox">
+        <div class="cmt-head"><h3>评论</h3><span class="mono">GISCUS · 需登录 GitHub</span></div>
+        <div id="cmtMount"></div>
+      </div>
+
     </div>
 
     <div class="end">
@@ -200,5 +237,53 @@ a{color:inherit;text-decoration:none}
 <audio id="bgm" preload="metadata"></audio>
 <button class="mbgm" id="mbgm" type="button" aria-label="音乐" hidden>♪</button>
 <script src="music-state.js"></script>
+<script>
+(function(){
+  var SLUG = 'welcome';
+  var KEY = 'mb-like-' + SLUG;
+  var n = parseInt(localStorage.getItem(KEY) || '0', 10);
+  var btn = document.getElementById('likeBtn');
+  var cnt = document.getElementById('likeCount');
+  var info = document.getElementById('actInfo');
+  function paint(){
+    var liked = localStorage.getItem(KEY + '-on') === '1';
+    cnt.textContent = n > 0 ? ('点赞 ' + n) : '点赞';
+    btn.classList.toggle('on', liked);
+    info.textContent = n > 0 ? (n + ' 人点赞 · 欢迎在下面留言') : '还没有人点赞 · 欢迎在下面留言';
+  }
+  if (btn) btn.addEventListener('click', function(){
+    var liked = localStorage.getItem(KEY + '-on') === '1';
+    n = Math.max(0, n + (liked ? -1 : 1));
+    localStorage.setItem(KEY, String(n));
+    localStorage.setItem(KEY + '-on', liked ? '0' : '1');
+    paint();
+  });
+  paint();
+
+  var g = document.getElementById('cmtMount');
+  var cb = document.getElementById('cmtBtn');
+  if (cb) cb.addEventListener('click', function(){
+    document.getElementById('cmtBox').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  if (g) {
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-repo', 'Mobius-msz/mobius-shell');
+    s.setAttribute('data-repo-id', 'R_kgDOVt-jcw');
+    s.setAttribute('data-category', 'General');
+    s.setAttribute('data-category-id', 'DIC_kwDOVt-jc84DLIhH');
+    s.setAttribute('data-mapping', 'specific');
+    s.setAttribute('data-term', 'post-' + SLUG);
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-theme', 'dark_dimmed');
+    s.setAttribute('data-lang', 'zh-CN');
+    s.setAttribute('data-loading', 'lazy');
+    g.appendChild(s);
+  }
+})();
+</script>
 </body>
 </html>

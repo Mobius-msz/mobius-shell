@@ -629,6 +629,33 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mg-pending .prow button.no{border-color:var(--red);color:var(--red)}
 @media(max-width:760px){.join-form{grid-template-columns:1fr}}
 
+/* 仪表盘 */
+.dash{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.dash-tile{border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);
+  padding:15px 16px 13px;position:relative;overflow:hidden}
+.dash-tile::after{content:"";position:absolute;left:0;top:0;width:2px;height:100%;background:var(--yellow);opacity:.5}
+.dash-k{font:400 9.5px var(--f-mono);letter-spacing:.18em;color:var(--faint);text-transform:uppercase}
+.dash-v{margin-top:7px;font:700 30px/1 var(--f-disp);letter-spacing:.01em;color:var(--yellow)}
+.dash-tile:nth-child(2) .dash-v{color:var(--cyan)}
+.dash-tile:nth-child(3) .dash-v{color:#ff7ad9}
+.dash-tile:nth-child(4) .dash-v{color:#b388ff}
+.dash-s{margin-top:7px;font:400 10px var(--f-mono);color:var(--faint)}
+
+/* 公告栏 */
+.notice{margin-top:26px;border:1px solid var(--line-soft);
+  background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:20px 22px}
+.notice-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.notice-head h3{font:600 15px var(--f-ui);letter-spacing:.02em;display:flex;align-items:center;gap:9px}
+.notice-head h3::before{content:"";width:3px;height:14px;background:var(--yellow)}
+.notice-head .mono{font:400 9.5px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
+.notice-item{display:grid;grid-template-columns:88px 1fr;gap:16px;padding:11px 0;border-top:1px solid var(--line-soft)}
+.notice-item:first-of-type{border-top:0;padding-top:0}
+.n-date{font:400 10px var(--f-mono);letter-spacing:.06em;color:var(--yellow);padding-top:2px}
+.n-body b{display:block;font:600 13px var(--f-ui);letter-spacing:.01em}
+.n-body p{margin-top:4px;font-size:12px;color:var(--dim);line-height:1.7}
+@media(max-width:1000px){.dash{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.notice-item{grid-template-columns:70px 1fr;gap:12px}}
+
 /* 页脚 */
 .foot{margin-top:66px;padding:26px 0 88px;border-top:1px solid var(--line-soft);
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
@@ -875,6 +902,54 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           <button aria-label="音量"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg></button>
         </div>
       </section>
+    </div>
+
+    <div class="dash">
+      <div class="dash-tile">
+        <div class="dash-k">访问人数</div>
+        <div class="dash-v" id="dashVisits">—</div>
+        <div class="dash-s">从 2026.11.14 起</div>
+      </div>
+      <div class="dash-tile">
+        <div class="dash-k">收录文章</div>
+        <div class="dash-v">08</div>
+        <div class="dash-s">公开发布内容</div>
+      </div>
+      <div class="dash-tile">
+        <div class="dash-k">收录照片</div>
+        <div class="dash-v">38</div>
+        <div class="dash-s">试着拍好的</div>
+      </div>
+      <div class="dash-tile">
+        <div class="dash-k">建站天数</div>
+        <div class="dash-v" id="dashDays">0</div>
+        <div class="dash-s">始于 2026-11-14</div>
+      </div>
+    </div>
+
+    <div class="notice">
+      <div class="notice-head"><h3>公告栏</h3><span class="mono">NOTICE</span></div>
+      <div class="notice-item">
+        <span class="n-date">2026.11.15</span>
+        <div class="n-body">
+          <b>好友墙上线</b>
+          <p>「Mobius 和他的好朋友们」开放了，带着头像和颜色去留个名字。管理员审批后就会出现。</p>
+        </div>
+      </div>
+      <div class="notice-item">
+        <span class="n-date">2026.11.15</span>
+        <div class="n-body">
+          <b>留言墙开通</b>
+          <p>「足迹」页底部接了 GitHub Discussions，登录就能留言。</p>
+        </div>
+      </div>
+      <div class="notice-item">
+        <span class="n-date">2026.11.14</span>
+        <div class="n-body">
+          <b>站点上线</b>
+          <p>mobius.wang 正式启用，一个 HTML 文件加一点偏执。</p>
+        </div>
+      </div>
     </div>
 
     <div class="ticker">
@@ -1791,6 +1866,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       try { history.replaceState(null, '', '#/' + name); } catch (err) {}
     }
   });
+
+  /* ---- \u4eea\u8868\u76d8 ---- */
+  var dDays = document.getElementById('dashDays');
+  if (dDays) {
+    var d0x = new Date(2026, 10, 14);
+    var dnx = new Date();
+    var dd = Math.round((new Date(dnx.getFullYear(), dnx.getMonth(), dnx.getDate()) - d0x) / 86400000);
+    dDays.textContent = dd > 0 ? dd : 0;
+  }
+  var dVisits = document.getElementById('dashVisits');
+  if (dVisits) {
+    var CNT = 'https://abacus.jasoncameron.dev';
+    var NS = 'mobius-wang';
+    var KEY = 'site';
+    var seen = sessionStorage.getItem('mb-visit') === '1';
+    fetch(CNT + '/' + (seen ? 'get' : 'hit') + '/' + NS + '/' + KEY, { cache: 'no-store' })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (typeof d.value === 'number') {
+          dVisits.textContent = d.value;
+          sessionStorage.setItem('mb-visit', '1');
+        }
+      })
+      .catch(function(){ dVisits.textContent = '\u2014'; });
+  }
 
   /* ---- 首次点击页面任意处就开始播放 ---- */
   var armed = true;
