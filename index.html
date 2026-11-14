@@ -267,6 +267,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .ctrl{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:14px}
 .ctrl button{display:grid;place-items:center;color:var(--dim);transition:.2s}
 .ctrl button:hover{color:var(--yellow);transform:scale(1.1)}
+.vol{-webkit-appearance:none;appearance:none;width:68px;height:3px;border-radius:2px;cursor:pointer;outline:none;
+  background:linear-gradient(to right, var(--yellow) 0%, var(--yellow) var(--p,45%), rgba(255,255,255,.14) var(--p,45%))}
+.vol::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;
+  background:var(--yellow);box-shadow:0 0 10px rgba(252,238,10,.8);cursor:pointer;transition:transform .15s}
+.vol::-webkit-slider-thumb:hover{transform:scale(1.35)}
+.vol::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:50%;background:var(--yellow);
+  box-shadow:0 0 10px rgba(252,238,10,.8);cursor:pointer}
+.vol::-moz-range-track{height:3px;border-radius:2px;background:rgba(255,255,255,.14)}
 .play-btn{width:44px;height:44px;border-radius:50%;color:#08080c!important;background:var(--yellow);
   box-shadow:0 0 30px -6px rgba(252,238,10,.9)}
 .play-btn:hover{box-shadow:0 0 44px -4px rgba(252,238,10,1)}
@@ -900,6 +908,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           </button>
           <button aria-label="下一首"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
           <button aria-label="音量"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg></button>
+          <input class="vol" id="vol" type="range" min="0" max="100" step="1" value="45" aria-label="音量大小">
         </div>
       </section>
     </div>
@@ -1744,12 +1753,33 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   dockBtn.addEventListener('click', togglePlay);
 
   /* 音量默认调低 */
-  audio.volume = 0.45;
+  var volEl = document.getElementById('vol');
+  var VOL_KEY = 'mb-vol';
+  var savedVol = parseFloat(localStorage.getItem(VOL_KEY));
+  if (!(savedVol >= 0 && savedVol <= 1)) savedVol = 0.45;
+  audio.volume = savedVol;
+  var muteBtnRef = null;
+  function paintVol() {
+    var v = audio.muted ? 0 : Math.round(audio.volume * 100);
+    if (volEl) { volEl.value = v; volEl.style.setProperty('--p', v + '%'); }
+    if (muteBtnRef) muteBtnRef.style.opacity = (audio.muted || v === 0) ? .45 : 1;
+  }
+  if (volEl) {
+    volEl.addEventListener('input', function(){
+      var v = parseInt(volEl.value, 10) / 100;
+      audio.volume = v;
+      if (v > 0 && audio.muted) audio.muted = false;
+      localStorage.setItem(VOL_KEY, String(v));
+      paintVol();
+    });
+    paintVol();
+  }
 
   var prevBtn = document.querySelector('.ctrl [aria-label="上一首"]');
   var nextBtn = document.querySelector('.ctrl [aria-label="下一首"]');
   var loopBtn = document.querySelector('.ctrl [aria-label="循环"]');
   var muteBtn = document.querySelector('.ctrl [aria-label="音量"]');
+  muteBtnRef = muteBtn;
   if (prevBtn) prevBtn.addEventListener('click', function(){ load(idx - 1, true); });
   if (nextBtn) nextBtn.addEventListener('click', function(){ load(idx + 1, true); });
   if (loopBtn) loopBtn.addEventListener('click', function(){
@@ -1760,6 +1790,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   if (muteBtn) muteBtn.addEventListener('click', function(){
     audio.muted = !audio.muted;
     muteBtn.style.opacity = audio.muted ? .45 : 1;
+    paintVol();
   });
 
   trackBar.addEventListener('click', function(e){
