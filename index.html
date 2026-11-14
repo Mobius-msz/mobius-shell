@@ -214,6 +214,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border-left:1px solid var(--cyan);border-top:1px solid var(--cyan)}
 .p-id h2{margin:0;font:700 27px/1 var(--f-disp);letter-spacing:.10em;text-transform:uppercase}
 .p-id p{margin:7px 0 0;font:400 10px var(--f-mono);letter-spacing:.18em;color:var(--yellow);text-transform:uppercase}
+.p-id .p-id2{color:var(--cyan);margin-top:5px}
 .bio{margin:18px 0 0;font-size:13px;line-height:1.9;color:var(--dim)}
 .stats{display:flex;gap:36px;margin:18px 0 0;padding:0;list-style:none}
 .stats li{display:flex;flex-direction:column;gap:3px}
@@ -670,13 +671,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <nav class="links" id="links">
-        <a href="#home" data-page="home">首页</a>
-        <a href="#archive" data-page="archive">文章</a>
-        <a href="#projects" data-page="projects">项目</a>
-        <a href="#photos" data-page="photos">照片墙<s>▦</s></a>
-        <a href="#music" data-page="music">音乐<s>♪</s></a>
-        <a href="#contact" data-page="contact">联系</a>
-        <a href="#links" data-page="links">友链</a>
+        <a href="#/home" data-page="home">首页</a>
+        <a href="#/archive" data-page="archive">文章</a>
+        <a href="#/projects" data-page="projects">项目</a>
+        <a href="#/photos" data-page="photos">照片墙<s>▦</s></a>
+        <a href="#/music" data-page="music">音乐<s>♪</s></a>
+        <a href="#/contact" data-page="contact">联系</a>
+        <a href="#/links" data-page="links">友链</a>
       </nav>
     </div>
   </header>
@@ -703,12 +704,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           <div class="p-id">
             <h2>Mobius</h2>
             <p>First-year student at HDU · Cuber avg 16.6</p>
+            <p class="p-id2">Steam 2001h · Team Spirit</p>
           </div>
         </div>
         <p class="bio">写代码，也写信。白天在终端里修 bug，夜里在这座不会天亮的城市里整理笔记。这里存放我关于技术、设计与日常的一切残片。</p>
         <ul class="stats">
           <li><b data-count="1">01</b><span>文章</span></li>
-          <li><b data-count="29">29</b><span>照片</span></li>
+          <li><b data-count="38">38</b><span>照片</span></li>
           <li><b data-count="8">08</b><span>曲目</span></li>
         </ul>
         <div class="p-foot">
@@ -770,7 +772,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <section class="sec" id="latest">
       <div class="sec-head">
         <h2><i>DATA//01</i>最新文章</h2>
-        <a href="#archive">[ 全部文章 → ]</a>
+        <a href="#/archive">[ 全部文章 → ]</a>
       </div>
       <div class="posts" id="homePosts"></div>
     </section>
@@ -883,7 +885,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
     <div class="page" id="page-photos">
     <section class="sec" id="photos">
-      <div class="sec-head"><h2><i>IMG//03</i>照片墙</h2><a href="#" id="shotCount">[ 29 SHOTS ]</a></div>
+      <div class="sec-head"><h2><i>IMG//03</i>照片墙</h2><a href="#" id="shotCount">[ 38 SHOTS ]</a></div>
       <div class="gal-tabs" id="galTabs">
         <button class="on" data-cat="all">全部</button>
         <button data-cat="life">生活</button>
@@ -968,8 +970,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <a href="https://github.com/Mobius-msz" target="_blank" rel="noopener">GITHUB</a>
         <a href="#" id="mail2">EMAIL</a>
         <a href="#" id="wechat2">WECHAT</a>
-        <a href="#links">友链</a>
-        <a href="#archive">BLOG</a>
+        <a href="#/links">友链</a>
+        <a href="#/archive">BLOG</a>
       </nav>
     </footer>
   </main>
@@ -1370,7 +1372,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     scrollTo(0, 0);
   }
   function hashPage(){
-    var h = (location.hash || '').replace('#', '');
+    var h = (location.hash || '').replace(/^#\/?/, '');
     return PAGES.indexOf(h) >= 0 ? h : 'home';
   }
   showPage(hashPage());
@@ -1378,11 +1380,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   document.addEventListener('click', function(e){
     var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
     if (!a) return;
-    var name = a.getAttribute('href').slice(1);
+    var name = a.getAttribute('href').replace(/^#\/?/, '');
     if (PAGES.indexOf(name) >= 0) {
       e.preventDefault();
       showPage(name);
-      try { history.replaceState(null, '', '#' + name); } catch (err) {}
+      try { history.replaceState(null, '', '#/' + name); } catch (err) {}
     }
   });
 
@@ -1415,6 +1417,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     { f: 'lake-trees.jpg',     c: 'life',   t: '水杉与倒影' },
     { f: 'rooftop.jpg',        c: 'life',   t: '天台 · 黄昏' },
     { f: 'city-sunset.jpg',    c: 'life',   t: '城市落日' },
+    { f: 'camera.jpg',         c: 'life',   t: '往星送的胶片相机' },
+    { f: 'hike.jpg',           c: 'life',   t: '西湖 · 35.10 公里' },
+    { f: 'sunset.jpg',         c: 'life',   t: '西湖 · 日落' },
     { f: 'lab-corridor.jpg',   c: 'lab',    t: '科技竞赛长廊' },
     { f: 'pcb-eda.jpg',        c: 'lab',    t: '立创EDA · 布局' },
     { f: 'pcb-layout.jpg',     c: 'lab',    t: 'PCB · 走线与铺铜' },
@@ -1425,6 +1430,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     { f: 'cube-single.jpg',    c: 'play',   t: '魔方 · 单次 15.57' },
     { f: 'cube-stats.jpg',     c: 'play',   t: '魔方 · 19 把平均 16.58' },
     { f: 'desk-cubes.jpg',     c: 'play',   t: '桌面 · 两个魔方' },
+    { f: 'knife.jpg',          c: 'play',   t: 'CS2 · 折叠刀 多普勒' },
+    { f: 'steam.jpg',          c: 'play',   t: 'Steam · 2001 小时' },
+    { f: 'spirit.jpg',         c: 'play',   t: 'Team Spirit · 夺冠' },
+    { f: 'donk.jpg',           c: 'play',   t: 'donk · BLAST MVP' },
+    { f: 'roster.jpg',         c: 'play',   t: 'Spirit · 上台' },
     { f: 'notes-1.jpg',        c: 'memory', t: '同学留言 · 其一' },
     { f: 'notes-2.jpg',        c: 'memory', t: '同学留言 · 其二' },
     { f: 'notes-3.jpg',        c: 'memory', t: '同学留言 · 其三' },
@@ -1436,7 +1446,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     { f: 'notes-9.jpg',        c: 'memory', t: '同学留言 · 其九' },
     { f: 'highschool.jpg',     c: 'memory', t: '惠兴中学' },
     { f: 'westlake-hill.jpg',  c: 'memory', t: '宝石山 · 俯瞰西湖' },
-    { f: 'westlake-sunset.jpg',c: 'memory', t: '西湖 · 落日' }
+    { f: 'westlake-sunset.jpg',c: 'memory', t: '西湖 · 落日' },
+    { f: 'birthday.jpg',       c: 'memory', t: '杭电的生日祝福' }
   ];
   var CATNAME = { life: 'LIFE', lab: 'LAB', play: 'PLAY', memory: 'MEMORY' };
   var galGrid = document.getElementById('galGrid');
