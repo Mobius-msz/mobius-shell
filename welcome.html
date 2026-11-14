@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06060a">
+<title>Welcome to Mobius Shell — MOBIUS // SHELL</title>
+<link rel="preload" as="image" href="wallpaper.jpg" fetchpriority="high">
+<style>
+:root{
+  --bg:#06060a; --ink:#f2f2f4;
+  --dim:rgba(242,242,244,.66); --faint:rgba(242,242,244,.38);
+  --yellow:#fcee0a; --cyan:#00f0ff; --red:#ff2a3d;
+  --line:rgba(252,238,10,.20); --line-soft:rgba(255,255,255,.10);
+  --f-ui:"Bahnschrift","Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+  --f-disp:"Bahnschrift SemiCondensed","Bahnschrift","Segoe UI",system-ui,sans-serif;
+  --f-mono:"Cascadia Mono","Consolas","JetBrains Mono",ui-monospace,monospace;
+  --f-sys:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
+  font:15px/1.75 var(--f-ui);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--yellow);color:#08080c}
+.mono{font-family:var(--f-mono);letter-spacing:.18em;text-transform:uppercase;font-size:10.5px}
+
+/* 背景 */
+.scenery{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#050508}
+.scenery::before{content:"";position:absolute;inset:-4%;
+  background:url("wallpaper.jpg") center 42%/cover no-repeat;
+  filter:saturate(.6) contrast(1.16) brightness(.5) hue-rotate(-8deg)}
+.scenery::after{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(80% 50% at 12% 6%,rgba(0,240,255,.12),transparent 60%),
+    linear-gradient(180deg,rgba(4,4,8,.88) 0%,rgba(4,4,8,.66) 30%,rgba(4,4,8,.86) 100%),
+    repeating-linear-gradient(180deg,rgba(0,0,0,.30) 0 1px,transparent 1px 3px)}
+
+/* 骨架 */
+.wrap{position:relative;z-index:1;width:min(100% - 40px,820px);margin-inline:auto}
+
+/* 导航 */
+.nav{position:sticky;top:0;z-index:20;height:66px;display:flex;align-items:center;
+  border-bottom:1px solid var(--line-soft);background:rgba(6,6,10,.82);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.nav-in{width:min(100% - 40px,1180px);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:7px;font:700 15px/1 var(--f-sys);
+  letter-spacing:.12em;text-transform:uppercase}
+.brand b{width:7px;height:7px;background:var(--yellow);box-shadow:0 0 14px rgba(252,238,10,.9);
+  animation:blink 2.4s steps(1) infinite}
+@keyframes blink{0%,60%{opacity:1}61%,100%{opacity:.15}}
+.brand em{font-style:normal;color:var(--yellow);letter-spacing:0;margin:0 1px}
+.back{font:400 11px var(--f-sys);letter-spacing:.06em;color:var(--dim);
+  padding:7px 12px;border:1px solid var(--line-soft);transition:.2s}
+.back:hover{background:var(--yellow);border-color:var(--yellow);color:#08080c}
+
+/* 文章头 */
+.art{margin-top:52px}
+.art .kicker{display:inline-flex;align-items:center;gap:9px;padding:6px 13px;
+  border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.07);color:var(--cyan);
+  clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px)}
+.art h1{margin:20px 0 14px;font:700 clamp(32px,5.4vw,54px)/1.08 var(--f-disp);
+  letter-spacing:.02em;text-transform:uppercase}
+.art h1 span{color:var(--yellow)}
+.art .meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  font:400 10px var(--f-mono);letter-spacing:.14em;color:var(--faint);text-transform:uppercase;
+  padding-bottom:22px;border-bottom:1px solid var(--line-soft)}
+.art .meta .dot{width:3px;height:3px;background:currentColor}
+.art .meta .tag{padding:3px 7px;border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.1);color:var(--cyan)}
+
+/* 正文 */
+.post{margin:34px 0 0;max-width:100%}
+.post p{margin:0 0 22px;font-size:15.5px;line-height:2.05;color:var(--dim)}
+.post p.lead{font-size:17px;line-height:2;color:var(--ink)}
+.post strong{color:var(--yellow);font-weight:600}
+.post em{font-style:normal;color:var(--cyan)}
+.post h2{margin:46px 0 16px;font:700 19px/1.2 var(--f-disp);letter-spacing:.1em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px}
+.post h2::before{content:"";width:4px;height:16px;background:var(--yellow);box-shadow:0 0 14px rgba(252,238,10,.8)}
+.post ul{margin:0 0 24px;padding:0;list-style:none}
+.post li{position:relative;padding-left:20px;margin-bottom:10px;font-size:15px;line-height:1.95;color:var(--dim)}
+.post li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;
+  background:var(--yellow);transform:rotate(45deg)}
+.post blockquote{margin:28px 0;padding:18px 22px;border-left:2px solid var(--yellow);
+  background:linear-gradient(90deg,rgba(252,238,10,.08),transparent 70%);
+  font:400 16px/1.9 var(--f-ui);color:var(--ink)}
+.post blockquote p{margin:0;font-size:16px;color:var(--ink)}
+.post .sign{margin-top:36px;font:400 11px var(--f-mono);letter-spacing:.16em;color:var(--faint);
+  text-transform:uppercase;text-align:right}
+.post code{font:400 13px var(--f-mono);background:rgba(255,255,255,.07);
+  padding:2px 6px;border:1px solid var(--line-soft);color:var(--cyan);overflow-wrap:anywhere}
+
+/* 结尾 */
+.end{margin:54px 0 0;padding-top:22px;border-top:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.end span{font:400 10px var(--f-mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.end a{font:400 11px var(--f-sys);letter-spacing:.06em;color:var(--dim);
+  padding:8px 14px;border:1px solid var(--line-soft);transition:.2s}
+.end a:hover{background:var(--yellow);border-color:var(--yellow);color:#08080c}
+
+.foot{margin:60px 0 0;padding:22px 0 70px;border-top:1px solid var(--line-soft);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;
+  font:400 10px var(--f-mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+
+@media(max-width:760px){
+  .art{margin-top:34px}
+  .post p{font-size:15px;line-height:1.95}
+  .post p.lead{font-size:16px}
+  .nav{height:58px}
+  .brand{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+
+<div class="scenery" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <a href="index.html" class="brand"><b></b>MOBIUS<em>//</em>SHELL</a>
+    <a href="index.html" class="back">← 返回首页</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="art">
+    <span class="kicker mono">POST // 001 · 开篇</span>
+    <h1>Welcome to <span>Mobius Shell</span></h1>
+    <div class="meta">
+      <span>2026.11.14</span><i class="dot"></i>
+      <span>杭州</span><i class="dot"></i>
+      <span>约 3 分钟</span>
+      <span class="tag">开篇</span>
+    </div>
+
+    <div class="post">
+      <p class="lead">这里是我的壳。</p>
+
+      <p>写代码，也写信。白天在终端里修 bug，夜里在这座不会天亮的城市里整理笔记——这句话在首页挂了很久，现在终于有第一篇文章来兑现它。</p>
+
+      <h2>为什么叫 Mobius Shell</h2>
+
+      <p><strong>Möbius</strong> 是一条只有一个面的带子：沿着它走一圈，会回到原点，但翻了个面。<strong>Shell</strong> 是壳，是命令行，也是一个人对外的边界。</p>
+
+      <p>合起来大概就是：绕了一圈，我还是我，只是换了一面。壳不是躲，是一个可以自己决定什么时候打开的边界。</p>
+
+      <h2>最近在做什么</h2>
+
+      <p>在画一块 <code>STM32F407VGT6</code> 的板子。从立创 EDA 画原理图、拉线、铺铜，到打样回来焊上第一颗芯片。板子上的丝印写着 Mobius——所以你也可以说，这个博客和那块板子同名。</p>
+
+      <p>同时也在把手上的例程从<strong>标准库</strong>往 <strong>HAL 库</strong>搬。以前写 <code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE)</code>，现在得记 <code>__HAL_RCC_GPIOA_CLK_ENABLE()</code>；以前一个 <code>GPIO_InitTypeDef</code> 配到底，现在要跟 CubeMX 生成的那一大坨 <code>MX_GPIO_Init()</code> 打交道。刚上手那几天确实别扭，等把时钟树和外设句柄理顺了，反而比标准库省心——尤其是换芯片的时候，改配置不用重写整个底层。</p>
+
+      <p>另外我还是 <strong>RoboMaster Phoenix</strong> 战队电控组的成员，也在 <strong>ASC 社团</strong>里。不过实话说，大一新生，刚入门：现在主要在上培训课，啃 STM32 的手册和例程，照着教程一步步把外设跑通。离调试整车、上赛场还有很长的路，但方向是清楚的。</p>
+
+      <p>还有个不太搭界的爱好：<strong>魔方</strong>。最近练的 19 把，平均 16.58 秒，单次最好 13.53，ao5 是 16.17——离 sub-16 就差一口气。<strong>CFOP 还没背完</strong>，OLL、PLL 加起来还有一半躺在纸上，比赛时基本靠几个背熟的情况硬拼。十几天后有场校赛，这是我第一次正式比赛，目标 sub-16。</p>
+
+      <p>三块绿板子现在还在桌上躺着，等着被点第一颗 LED。等它真的亮起来，我会把过程写在这里，包括所有被我炸掉的电容。</p>
+
+      <h2>这里会放什么</h2>
+
+      <ul>
+        <li><strong>硬件笔记</strong>：STM32、电源、画板和调试时踩过的坑</li>
+        <li><strong>代码</strong>：前端、脚本，以及一些没什么用但很好玩的轮子</li>
+        <li><strong>照片</strong>：校园、西湖、天台，还有和同学一起吃的那些饭</li>
+        <li><strong>碎念</strong>：夜里写得出来、白天不敢发的东西</li>
+      </ul>
+
+      <blockquote>
+        <p>美好的事物，永不消逝。</p>
+      </blockquote>
+
+      <p>不追热点，不日更。写下来的东西，一年后回头看还愿意读，就值了。</p>
+
+      <p class="sign">— Mobius · 2026.11.14 · 杭州</p>
+    </div>
+
+    <div class="end">
+      <span>END OF POST</span>
+      <a href="index.html">← 回到首页</a>
+    </div>
+  </article>
+
+  <footer class="foot">
+    <span>© 2077 MOBIUS // SHELL</span>
+    <a href="https://github.com/Mobius-msz" target="_blank" rel="noopener">GITHUB</a>
+  </footer>
+</main>
+
+</body>
+</html>
