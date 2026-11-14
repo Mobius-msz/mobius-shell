@@ -459,6 +459,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .crow:hover .ca{border-color:var(--yellow);color:var(--yellow)}
 .sec-head .hint{font:400 10px var(--f-mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
 
+/* 友链 */
+.friends{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.friend{position:relative;display:flex;align-items:center;gap:12px;padding:17px 20px;
+  border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 62%);
+  transition:.25s}
+.friend:hover{border-color:var(--yellow);transform:translateY(-2px);
+  box-shadow:0 20px 40px -24px rgba(252,238,10,.55)}
+.fdot{width:7px;height:7px;flex:none;background:var(--green);box-shadow:0 0 12px var(--green);
+  animation:blink 2s steps(1) infinite}
+.fname{font:700 14.5px var(--f-disp);letter-spacing:.06em;white-space:nowrap}
+.furl{margin-left:auto;font:400 9.5px var(--f-mono);letter-spacing:.02em;color:var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fgo{font:400 12px var(--f-mono);color:var(--yellow);flex:none}
+
 /* 页脚 */
 .foot{margin-top:66px;padding:26px 0 88px;border-top:1px solid var(--line-soft);
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
@@ -632,6 +646,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <a href="#player">音乐<s>♪</s></a>
         <a href="#posts">杂谈</a>
         <a href="#contact">联系</a>
+        <a href="#links">友链</a>
         <a href="#foot">关于</a>
       </nav>
     </div>
@@ -858,12 +873,28 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </div>
     </section>
 
+    <section class="sec" id="links">
+      <div class="sec-head">
+        <h2><i>LINK//05</i>友链</h2>
+        <span class="hint">[ 欢迎交换 ]</span>
+      </div>
+      <div class="friends">
+        <a class="friend" href="https://republic-of-narcissus.icu" target="_blank" rel="noopener">
+          <span class="fdot"></span>
+          <span class="fname">Republic of Narcissus</span>
+          <span class="furl">republic-of-narcissus.icu</span>
+          <span class="fgo">↗</span>
+        </a>
+      </div>
+    </section>
+
     <footer class="foot" id="foot">
       <span>© 2077 MOBIUS // SHELL · 用 HTML 和一点偏执写成</span>
       <nav>
         <a href="https://github.com/Mobius-msz" target="_blank" rel="noopener">GITHUB</a>
         <a href="#" id="mail2">EMAIL</a>
         <a href="#" id="wechat2">WECHAT</a>
+        <a href="#links">友链</a>
         <a href="#posts">BLOG</a>
       </nav>
     </footer>
