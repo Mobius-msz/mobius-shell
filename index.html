@@ -1743,6 +1743,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   btn.addEventListener('click', togglePlay);
   dockBtn.addEventListener('click', togglePlay);
 
+  /* 音量默认调低 */
+  audio.volume = 0.45;
+
   var prevBtn = document.querySelector('.ctrl [aria-label="上一首"]');
   var nextBtn = document.querySelector('.ctrl [aria-label="下一首"]');
   var loopBtn = document.querySelector('.ctrl [aria-label="循环"]');

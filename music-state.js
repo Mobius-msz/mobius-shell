@@ -2,6 +2,7 @@
 (function () {
   var audio = document.getElementById('bgm');
   if (!audio) return;
+  audio.volume = 0.45;
   var KEY = 'mb-music';
 
   function read() {
