@@ -152,13 +152,13 @@ a{color:inherit;text-decoration:none}
 
       <h2>最近在做什么</h2>
 
-      <p>在画一块 <code>STM32F407VGT6</code> 的板子。从立创 EDA 画原理图、拉线、铺铜，到打样回来焊上第一颗芯片。丝印上印的是我的网名 Mobius——先有名字，后有板子。</p>
+      <p>在画一块 <code>STM32F407VGT6</code> 的板子。从立创 EDA 画原理图、拉线、铺铜，到打样回来，三块绿板子在桌上躺了几天。<strong>明天去焊。</strong></p>
 
       <p>同时也在把手上的例程从<strong>标准库</strong>往 <strong>HAL 库</strong>搬。以前写 <code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE)</code>，现在得记 <code>__HAL_RCC_GPIOA_CLK_ENABLE()</code>；以前一个 <code>GPIO_InitTypeDef</code> 配到底，现在要跟 CubeMX 生成的那一大坨 <code>MX_GPIO_Init()</code> 打交道。刚上手那几天确实别扭，等把时钟树和外设句柄理顺了，反而比标准库省心——尤其是换芯片的时候，改配置不用重写整个底层。</p>
 
       <p>至于我是谁——学校、社团、魔方、游戏——单独写在 <a href="about.html"><strong>About Mobius</strong></a> 里了，这里就不重复。</p>
 
-      <p>三块绿板子现在还在桌上躺着，等着被点第一颗 LED。等它真的亮起来，我会把过程写在这里，包括所有被我炸掉的电容。</p>
+      <p>等它真的亮起来，我会把过程写在这里，包括所有被我炸掉的电容。</p>
 
       <h2>这里会放什么</h2>
 
