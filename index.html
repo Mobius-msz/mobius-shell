@@ -564,6 +564,46 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   font:400 10.5px var(--f-mono);letter-spacing:.08em;transition:.2s}
 .mg-links a:hover{color:var(--yellow);border-color:var(--yellow)}
 
+/* 好朋友们 */
+.friend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px}
+.friend-card{border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:16px 18px}
+.fc-nick{display:block;font:600 15px var(--f-ui);letter-spacing:.02em;color:var(--yellow)}
+.fc-school{display:block;margin-top:4px;font:400 10px var(--f-mono);letter-spacing:.12em;color:var(--faint)}
+.friend-card p{margin-top:10px;font-size:12.5px;color:var(--dim);line-height:1.75}
+.fc-date{display:block;margin-top:10px;font:400 9.5px var(--f-mono);color:var(--faint)}
+.friend-empty{color:var(--faint);font-size:12.5px;padding:6px 0}
+.join{margin-top:34px;border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:22px}
+.join-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px}
+.join-head h3{font:600 16px var(--f-ui)}
+.join-head .mono{font:400 10px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
+.join-form{display:grid;grid-template-columns:1fr 1fr 1.4fr auto;gap:10px;align-items:end}
+.join-form label{display:block;font:400 10px var(--f-mono);letter-spacing:.12em;color:var(--faint)}
+.join-form input{display:block;width:100%;margin-top:5px;padding:9px 10px;background:#08080d;
+  border:1px solid var(--line-soft);color:var(--text);font:400 12px var(--f-mono);outline:none}
+.join-form input:focus{border-color:var(--yellow)}
+.join-tip{margin-top:14px;font-size:11.5px;color:var(--faint);line-height:1.8}
+.join-tip a{color:var(--yellow)}
+
+/* 管理锁 */
+.mg-lock{border:1px solid var(--line);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:24px;max-width:420px}
+.mg-lock h3{font:600 15px var(--f-ui);margin-bottom:6px}
+.mg-lock p{font-size:11.5px;color:var(--faint);line-height:1.8;margin-bottom:16px}
+.mg-lock label{display:block;font:400 10px var(--f-mono);letter-spacing:.12em;color:var(--faint);margin-bottom:11px}
+.mg-lock input{display:block;width:100%;margin-top:5px;padding:9px 10px;background:#08080d;
+  border:1px solid var(--line-soft);color:var(--text);font:400 12px var(--f-mono);outline:none}
+.mg-lock input:focus{border-color:var(--yellow)}
+.mg-err{color:var(--red);font-size:11px;margin-top:10px}
+.mg-pending{margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--dim)}
+.mg-pending .prow{display:flex;gap:12px;align-items:center;justify-content:space-between;
+  padding:10px 12px;border:1px solid var(--line-soft);background:#08080d}
+.mg-pending .prow b{color:var(--yellow);font-weight:600}
+.mg-pending .prow .ops{display:flex;gap:6px;flex:none}
+.mg-pending .prow button{padding:5px 10px;border:1px solid var(--line-soft);background:none;color:var(--dim);
+  font:400 10px var(--f-mono);cursor:pointer}
+.mg-pending .prow button.ok{border-color:var(--yellow);color:var(--yellow)}
+.mg-pending .prow button.no{border-color:var(--red);color:var(--red)}
+@media(max-width:760px){.join-form{grid-template-columns:1fr}}
+
 /* 页脚 */
 .foot{margin-top:66px;padding:26px 0 88px;border-top:1px solid var(--line-soft);
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
@@ -736,6 +776,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <a href="#/photos" data-page="photos">照片墙<s>▦</s></a>
         <a href="#/music" data-page="music">音乐<s>♪</s></a>
         <a href="#/footprints" data-page="footprints">足迹</a>
+        <a href="#/friends" data-page="friends">好友</a>
         <a href="#/downloads" data-page="downloads">下载</a>
         <a href="#/contact" data-page="contact">联系</a>
         <a href="#/links" data-page="links">友链</a>
@@ -1156,12 +1197,56 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     </section>
     </div><!-- /page-downloads -->
 
+    <div class="page" id="page-friends">
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i>FRIEND//09</i>Mobius 和他的好朋友们</h2>
+        <span class="hint" id="friendCount">[ 加载中 ]</span>
+      </div>
+
+      <div class="friend-grid" id="friendGrid"></div>
+      <p class="friend-empty" id="friendEmpty">还没有人留名。你可以是第一个。</p>
+
+      <div class="join">
+        <div class="join-head"><h3>想出现在这里？</h3><span class="mono">JOIN US</span></div>
+        <div class="join-form">
+          <label>同学 <input id="jSchool" placeholder="HDU · 电控"></label>
+          <label>昵称 <input id="jNick" placeholder="怎么称呼你"></label>
+          <label>一句话 <input id="jMsg" placeholder="一句就好"></label>
+          <button class="mg-btn" type="button" id="jSubmit">提交申请</button>
+        </div>
+        <p class="join-tip">
+          提交会打开一条 GitHub 议题（需要 GitHub 账号），管理员审批通过后就会出现在上面。<br>
+          没有账号？<a href="#/contact">直接发邮件 / 微信</a>给我，内容一样。
+        </p>
+      </div>
+    </section>
+    </div><!-- /page-friends -->
+
     <div class="page" id="page-manage">
     <section class="sec" id="manage">
       <div class="sec-head">
         <h2><i>ADMIN//07</i>管理</h2>
         <span class="hint">[ 静态站点工作台 ]</span>
       </div>
+
+      <div class="mg-lock" id="mgLock">
+        <h3>管理员登录</h3>
+        <p>登录后可以审批好友申请、生成代码片段。</p>
+        <label>账号<input id="mgUser" autocomplete="username"></label>
+        <label>密码<input id="mgPass" type="password" autocomplete="current-password"></label>
+        <button class="mg-btn" type="button" id="mgLogin">登录</button>
+        <p class="mg-err" id="mgErr" hidden>账号或密码不对。</p>
+      </div>
+
+      <div id="mgBody" hidden>
+        <div class="mg-card" style="margin-bottom:14px">
+          <h3>好友审批</h3>
+          <label>GitHub Token（可选，填了才能一键审批）
+            <input id="mgToken" placeholder="ghp_..." autocomplete="off">
+          </label>
+          <div id="mgPending" class="mg-pending">读取中…</div>
+        </div>
 
       <div class="mg-grid">
         <div class="mg-card">
@@ -1204,6 +1289,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <a href="https://console.dnspod.cn/dns/mobius.wang" target="_blank" rel="noopener">DNS ↗</a>
         <a href="https://github.com/Mobius-msz/mobius-shell/discussions" target="_blank" rel="noopener">讨论区 ↗</a>
       </div>
+      </div><!-- /mgBody -->
     </section>
     </div><!-- /page-manage -->
 
@@ -1643,7 +1729,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   }
 
   /* ---- 分页路由 ---- */
-  var PAGES = ['home', 'archive', 'projects', 'photos', 'music', 'footprints', 'downloads', 'contact', 'links', 'manage'];
+  var PAGES = ['home', 'archive', 'projects', 'photos', 'music', 'footprints', 'friends', 'downloads', 'contact', 'links', 'manage'];
   function showPage(name){
     if (PAGES.indexOf(name) < 0) name = 'home';
     var ps = document.querySelectorAll('.page');
@@ -1954,6 +2040,143 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   bindCopy('cemail', EMAIL, '邮箱');
   bindCopy('csteam', STEAM_ID, 'Steam 好友代码');
   /* ---- \u4e0b\u8f7d\u9875\uff1a\u590d\u5236\u53cb\u94fe\u4fe1\u606f ---- */
+
+  /* ---- \u597d\u670b\u53cb\u4eec ---- */
+  var GH_REPO = 'Mobius-msz/mobius-shell';
+  function hEsc(v){ return String(v == null ? '' : v).replace(/[&<>"]/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]; }); }
+  function hField(body, name){
+    if (!body) return '';
+    var re = new RegExp(name + '\\s*[:\\uff1a]\\s*(.+)');
+    var m = body.match(re);
+    return m ? m[1].trim() : '';
+  }
+  function loadFriends(){
+    var grid = document.getElementById('friendGrid');
+    if (!grid) return;
+    fetch('https://api.github.com/repos/' + GH_REPO + '/issues?labels=approved&state=all&per_page=60', { headers: { 'Accept': 'application/vnd.github+json' } })
+      .then(function(r){ return r.json(); })
+      .then(function(list){
+        if (!Array.isArray(list)) throw new Error('bad');
+        var html = '';
+        list.forEach(function(it){
+          if (it.pull_request) return;
+          var nick = hField(it.body, '\u6635\u79f0') || it.title.replace(/^\[[^\]]*\]\s*/, '');
+          var school = hField(it.body, '\u540c\u5b66');
+          var msg = hField(it.body, '\u4e00\u53e5\u8bdd');
+          html += '<article class="friend-card">'
+            + '<span class="fc-nick">' + hEsc(nick) + '</span>'
+            + (school ? '<span class="fc-school mono">' + hEsc(school) + '</span>' : '')
+            + (msg ? '<p>' + hEsc(msg) + '</p>' : '')
+            + '<span class="fc-date mono">' + hEsc((it.closed_at || it.created_at).slice(0, 10)) + '</span>'
+            + '</article>';
+        });
+        grid.innerHTML = html;
+        var cnt = document.getElementById('friendCount');
+        if (cnt) cnt.textContent = '[ ' + list.length + ' \u4f4d ]';
+        var em = document.getElementById('friendEmpty');
+        if (em) em.hidden = list.length > 0;
+      })
+      .catch(function(){
+        var cnt = document.getElementById('friendCount');
+        if (cnt) cnt.textContent = '[ \u6682\u65f6\u8bfb\u4e0d\u5230 ]';
+      });
+  }
+  var jSubmit = document.getElementById('jSubmit');
+  if (jSubmit) jSubmit.addEventListener('click', function(){
+    var school = (document.getElementById('jSchool').value || '').trim();
+    var nick = (document.getElementById('jNick').value || '').trim();
+    var msg = (document.getElementById('jMsg').value || '').trim();
+    if (!nick) { jSubmit.textContent = '\u5148\u586b\u4e2a\u6635\u79f0'; setTimeout(function(){ jSubmit.textContent = '\u63d0\u4ea4\u7533\u8bf7'; }, 1600); return; }
+    var body = '\u540c\u5b66: ' + school + '\n\u6635\u79f0: ' + nick + '\n\u4e00\u53e5\u8bdd: ' + msg + '\n\n---\n\u6765\u81ea ' + location.host;
+    var url = 'https://github.com/' + GH_REPO + '/issues/new?labels=friend&title='
+      + encodeURIComponent('[\u597d\u53cb\u7533\u8bf7] ' + nick) + '&body=' + encodeURIComponent(body);
+    window.open(url, '_blank');
+  });
+
+  /* ---- \u7ba1\u7406\u5458 ---- */
+  var ADMIN_USER_HASH = 'ae910613a5d0da17252309a7e5a3f87dae9686930b1e8a32105dfffa14d4344c';
+  var ADMIN_PASS_HASH = '03c3b07f4a7f64eef20af099804a3bc480553910fc4890d7f11703ac3eae31e7';
+  function sha256(str){
+    if (!window.crypto || !crypto.subtle) return Promise.reject(new Error('no crypto'));
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf){
+      return Array.prototype.map.call(new Uint8Array(buf), function(b){ return ('0' + b.toString(16)).slice(-2); }).join('');
+    });
+  }
+  function adminOn(){ return sessionStorage.getItem('mb-admin') === '1'; }
+  function paintAdmin(){
+    var lock = document.getElementById('mgLock');
+    var body = document.getElementById('mgBody');
+    if (lock) lock.hidden = adminOn();
+    if (body) body.hidden = !adminOn();
+  }
+  paintAdmin();
+
+  var mgLogin = document.getElementById('mgLogin');
+  if (mgLogin) mgLogin.addEventListener('click', function(){
+    var u = (document.getElementById('mgUser').value || '').trim();
+    var pw = document.getElementById('mgPass').value || '';
+    var err = document.getElementById('mgErr');
+    if (err) err.hidden = true;
+    Promise.all([sha256(u), sha256(pw)]).then(function(h){
+      if (h[0] === ADMIN_USER_HASH && h[1] === ADMIN_PASS_HASH) {
+        sessionStorage.setItem('mb-admin', '1');
+        paintAdmin();
+        loadPending();
+      } else if (err) {
+        err.hidden = false;
+      }
+    }).catch(function(){
+      if (err) { err.textContent = '\u9700\u8981 https \u73af\u5883\u624d\u80fd\u767b\u5f55'; err.hidden = false; }
+    });
+  });
+
+  function ghToken(){ return localStorage.getItem('mb-gh-token') || ''; }
+  function loadPending(){
+    var box = document.getElementById('mgPending');
+    if (!box) return;
+    box.textContent = '\u8bfb\u53d6\u4e2d\u2026';
+    fetch('https://api.github.com/repos/' + GH_REPO + '/issues?state=open&labels=friend&per_page=30', { headers: { 'Accept': 'application/vnd.github+json' } })
+      .then(function(r){ return r.json(); })
+      .then(function(list){
+        if (!Array.isArray(list) || !list.length) { box.textContent = '\u6682\u65e0\u5f85\u5ba1\u6279\u7684\u7533\u8bf7\u3002'; return; }
+        var html = '';
+        list.forEach(function(it){
+          var nick = hField(it.body, '\u6635\u79f0') || it.title;
+          var school = hField(it.body, '\u540c\u5b66');
+          html += '<div class="prow"><span><b>' + hEsc(nick) + '</b>'
+            + (school ? ' \u00b7 ' + hEsc(school) : '') + '</span>'
+            + '<span class="ops"><button type="button" class="ok" data-n="' + it.number + '" data-act="ok">\u901a\u8fc7</button>'
+            + '<button type="button" class="no" data-n="' + it.number + '" data-act="no">\u62d2\u7edd</button></span></div>';
+        });
+        box.innerHTML = html;
+        var btns = box.querySelectorAll('button');
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].addEventListener('click', function(){
+            var t = ghToken();
+            if (!t) { alert('\u5148\u5728\u4e0a\u9762\u586b GitHub Token\uff0c\u6216\u76f4\u63a5\u53bb GitHub \u5904\u7406\u3002'); return; }
+            var n = this.getAttribute('data-n');
+            var ok = this.getAttribute('data-act') === 'ok';
+            fetch('https://api.github.com/repos/' + GH_REPO + '/issues/' + n, {
+              method: 'PATCH',
+              headers: { 'Authorization': 'Bearer ' + t, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+              body: JSON.stringify({ labels: [ok ? 'approved' : 'rejected'], state: 'closed' })
+            }).then(function(r){
+              if (!r.ok) throw new Error('api');
+              loadPending(); loadFriends();
+            }).catch(function(){ alert('\u5931\u8d25\uff1a\u68c0\u67e5 Token \u6743\u9650\uff08\u9700 repo \u8303\u56f4\uff09'); });
+          });
+        }
+      })
+      .catch(function(){ box.textContent = '\u8bfb\u53d6\u5931\u8d25\uff0c\u7a0d\u540e\u518d\u8bd5\u3002'; });
+  }
+  var tokenInput = document.getElementById('mgToken');
+  if (tokenInput) {
+    tokenInput.value = ghToken();
+    tokenInput.addEventListener('change', function(){ localStorage.setItem('mb-gh-token', tokenInput.value.trim()); });
+  }
+  if (adminOn()) loadPending();
+  loadFriends();
+
   var copyLink = document.getElementById('copyLinkInfo');
   if (copyLink) copyLink.addEventListener('click', function(e){
     copyText('\u540d\u79f0\uff1aMOBIUS // SHELL\n\u94fe\u63a5\uff1ahttps://mobius.wang\n\u5934\u50cf\uff1ahttps://mobius.wang/avatar.jpg\n\u7b80\u4ecb\uff1a\u7f8e\u597d\u7684\u4e8b\u7269\uff0c\u6c38\u4e0d\u6d88\u901d', '\u53cb\u94fe\u4fe1\u606f', e);
