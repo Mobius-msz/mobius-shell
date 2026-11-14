@@ -2,7 +2,8 @@
 (function () {
   var audio = document.getElementById('bgm');
   if (!audio) return;
-  audio.volume = 0.45;
+  var v0 = parseFloat(localStorage.getItem('mb-vol'));
+  audio.volume = (v0 >= 0 && v0 <= 1) ? v0 : 0.45;
   var KEY = 'mb-music';
 
   function read() {
