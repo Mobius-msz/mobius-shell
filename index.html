@@ -565,18 +565,35 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mg-links a:hover{color:var(--yellow);border-color:var(--yellow)}
 
 /* 好朋友们 */
-.friend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:12px}
-.friend-card{border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:16px 18px}
-.fc-nick{display:block;font:600 15px var(--f-ui);letter-spacing:.02em;color:var(--yellow)}
-.fc-school{display:block;margin-top:4px;font:400 10px var(--f-mono);letter-spacing:.12em;color:var(--faint)}
-.friend-card p{margin-top:10px;font-size:12.5px;color:var(--dim);line-height:1.75}
-.fc-date{display:block;margin-top:10px;font:400 9.5px var(--f-mono);color:var(--faint)}
+.friend-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(182px,1fr));gap:13px}
+.friend-card{display:flex;flex-direction:column;align-items:center;text-align:center;
+  border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);
+  padding:24px 16px 18px;transition:.25s}
+.friend-card:hover{border-color:var(--line);transform:translateY(-2px)}
+.fc-ava{width:92px;height:92px;border-radius:50%;object-fit:cover;flex:none;
+  border:1px solid var(--line-soft);background:#0b0b12;
+  display:grid;place-items:center;font:600 32px var(--f-ui);color:var(--faint)}
+.fc-main{display:flex;flex-direction:column;align-items:center;min-width:0;width:100%}
+.fc-nick{margin-top:15px;font:700 15px var(--f-ui);letter-spacing:.02em;color:var(--yellow);word-break:break-word}
+.fc-school{margin-top:4px;font:400 9.5px var(--f-mono);letter-spacing:.1em;color:var(--faint)}
+.friend-card p{margin-top:9px;font-size:12px;color:var(--dim);line-height:1.72;word-break:break-word}
+.fc-date{margin-top:12px;font:400 9px var(--f-mono);letter-spacing:.06em;color:var(--faint);opacity:.7}
 .friend-empty{color:var(--faint);font-size:12.5px;padding:6px 0}
 .join{margin-top:34px;border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:22px}
 .join-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px}
 .join-head h3{font:600 16px var(--f-ui)}
 .join-head .mono{font:400 10px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
-.join-form{display:grid;grid-template-columns:1fr 1fr 1.4fr auto;gap:10px;align-items:end}
+.join-form{display:flex;flex-direction:column;gap:14px;max-width:620px}
+.jf-ava{display:flex}
+.jf-label{display:block;font:400 10px var(--f-mono);letter-spacing:.12em;color:var(--faint);margin-bottom:9px}
+.j-colors{display:flex;gap:10px;flex-wrap:wrap}
+.j-colors i{display:block;width:20px;height:20px;border-radius:50%;cursor:pointer;
+  border:2px solid transparent;transition:.15s;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+.j-colors i.on{border-color:#fff;transform:scale(1.14)}
+.join-form textarea{display:block;width:100%;margin-top:6px;padding:9px 10px;background:#08080d;
+  border:1px solid var(--line-soft);color:var(--text);font:400 12.5px var(--f-ui);line-height:1.65;outline:none;resize:vertical}
+.join-form textarea:focus{border-color:var(--yellow)}
+.jf-submit{align-self:flex-start;margin-top:2px}
 .join-form label{display:block;font:400 10px var(--f-mono);letter-spacing:.12em;color:var(--faint)}
 .join-form input{display:block;width:100%;margin-top:5px;padding:9px 10px;background:#08080d;
   border:1px solid var(--line-soft);color:var(--text);font:400 12px var(--f-mono);outline:none}
@@ -589,10 +606,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .j-ava img{width:100%;height:100%;object-fit:cover;display:block}
 .j-ava img[hidden]{display:none}
 .j-ava b{font:400 10px var(--f-mono);letter-spacing:.04em;color:var(--faint);font-weight:400;white-space:nowrap}
-.fc-ava{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid var(--line-soft);
-  flex:none;background:#0b0b12;display:grid;place-items:center;font:600 15px var(--f-ui);color:var(--faint)}
-.friend-card{display:flex;gap:13px;align-items:flex-start}
-.fc-main{min-width:0;flex:1}
 .join-tip{margin-top:14px;font-size:11.5px;color:var(--faint);line-height:1.8}
 .join-tip a{color:var(--yellow)}
 
@@ -1222,16 +1235,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       <div class="join">
         <div class="join-head"><h3>想出现在这里？</h3><span class="mono">JOIN US</span></div>
         <div class="join-form">
-          <label>头像
+          <div class="jf-ava">
             <span class="j-ava" id="jAva" title="点击选择图片">
               <img id="jAvaImg" alt="" hidden>
-              <b id="jAvaTxt">上传</b>
+              <b id="jAvaTxt">上传头像</b>
             </span>
             <input id="jFile" type="file" accept="image/*" hidden>
-          </label>
-          <label>昵称 <input id="jNick" placeholder="怎么称呼你"></label>
-          <label>一句话 <input id="jMsg" placeholder="一句就好"></label>
-          <button class="mg-btn" type="button" id="jSubmit">提交申请</button>
+          </div>
+          <label>昵称 <input id="jNick" placeholder="你的昵称"></label>
+          <div class="jf-colors">
+            <span class="jf-label">昵称颜色</span>
+            <div class="j-colors" id="jColors"></div>
+          </div>
+          <label>说点什么 <textarea id="jMsg" rows="3" placeholder="说点什么…"></textarea></label>
+          <button class="mg-btn jf-submit" type="button" id="jSubmit">留下足迹</button>
         </div>
         <p class="join-tip">
           提交会打开一条 GitHub 议题（需要 GitHub 账号），管理员审批通过后就会出现在上面。<br>
@@ -2132,12 +2149,29 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     });
   }
 
+  var JCOLORS = ['#ffffff', '#ff5a5a', '#fcee0a', '#ff7ad9', '#b388ff', '#4fc3ff', '#4ade80'];
+  var jColor = JCOLORS[2];
+  var jColors = document.getElementById('jColors');
+  if (jColors) {
+    JCOLORS.forEach(function(c, idx){
+      var dot = document.createElement('i');
+      dot.style.background = c;
+      if (c === jColor) dot.className = 'on';
+      dot.addEventListener('click', function(){
+        jColor = c;
+        var all = jColors.querySelectorAll('i');
+        for (var k = 0; k < all.length; k++) all[k].classList.toggle('on', all[k] === dot);
+      });
+      jColors.appendChild(dot);
+    });
+  }
+
   var jSubmit = document.getElementById('jSubmit');
   if (jSubmit) jSubmit.addEventListener('click', function(){
     var nick = (document.getElementById('jNick').value || '').trim();
     var msg = (document.getElementById('jMsg').value || '').trim();
-    if (!nick) { jSubmit.textContent = '\u5148\u586b\u4e2a\u6635\u79f0'; setTimeout(function(){ jSubmit.textContent = '\u63d0\u4ea4\u7533\u8bf7'; }, 1600); return; }
-    var body = '\u6635\u79f0: ' + nick + '\n\u4e00\u53e5\u8bdd: ' + msg + '\n\u5934\u50cf: ' + (jAvaData || '') + '\n\n---\n\u6765\u81ea ' + location.host;
+    if (!nick) { jSubmit.textContent = '\u5148\u586b\u4e2a\u6635\u79f0'; setTimeout(function(){ jSubmit.textContent = '\u7559\u4e0b\u8db3\u8ff9'; }, 1600); return; }
+    var body = '\u6635\u79f0: ' + nick + '\n\u989c\u8272: ' + jColor + '\n\u4e00\u53e5\u8bdd: ' + msg + '\n\u5934\u50cf: ' + (jAvaData || '') + '\n\n---\n\u6765\u81ea ' + location.host;
     var url = 'https://github.com/' + GH_REPO + '/issues/new?labels=friend&title='
       + encodeURIComponent('[\u597d\u53cb\u7533\u8bf7] ' + nick) + '&body=' + encodeURIComponent(body);
     window.open(url, '_blank');

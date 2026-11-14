@@ -47,11 +47,15 @@ jobs:
               body = it.get("body") or ""
               nick = field(body, "昵称") or it["title"].replace("[好友申请]", "").strip()
               avatar = field(body, "头像") or (it.get("user") or {}).get("avatar_url", "")
+              color = field(body, "颜色")
+              if not (color.startswith("#") and len(color) == 7):
+                  color = "#fcee0a"
               friends.append({
                   "nick": nick,
                   "school": field(body, "同学"),
                   "msg": field(body, "一句话"),
                   "avatar": avatar,
+                  "color": color,
                   "date": (it.get("closed_at") or it["created_at"])[:10],
               })
 
