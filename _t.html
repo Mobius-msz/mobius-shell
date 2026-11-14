@@ -1,7 +1,14 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>probe</title></head><body>
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>probe2</title></head><body>
 <script>
-fetch('https://api.github.com/repos/Mobius-msz/mobius-shell/issues?labels=approved&state=all&per_page=60', {headers:{'Accept':'application/vnd.github+json'}})
-  .then(function(r){ return r.text().then(function(t){ return [r.status, t.length, r.headers.get('access-control-allow-origin')]; }); })
-  .then(function(x){ document.title = 'OK|' + x.join('|'); })
-  .catch(function(e){ document.title = 'ERR|' + e.name + '|' + e.message; });
+var out = [];
+function step(name, p){
+  return p.then(function(){ out.push(name + '=ok'); })
+          .catch(function(e){ out.push(name + '=' + e.name); });
+}
+window.addEventListener('load', function(){
+  step('nocors', fetch('https://api.github.com/zen', {mode:'no-cors'}))
+  .then(function(){ return step('plain', fetch('https://api.github.com/zen')); })
+  .then(function(){ return step('hdr', fetch('https://api.github.com/repos/Mobius-msz/mobius-shell/issues?labels=approved', {headers:{'Accept':'application/vnd.github+json'}})); })
+  .then(function(){ document.title = out.join('|'); });
+});
 </script></body></html>
