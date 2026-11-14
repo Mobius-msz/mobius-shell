@@ -513,6 +513,57 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tl-name{font:600 14px var(--f-ui);letter-spacing:.02em;transition:.2s}
 .tl-artist{font:400 9.5px var(--f-mono);letter-spacing:.08em;color:var(--faint)}
 
+/* 足迹 */
+.trace{list-style:none;margin:0;padding:0;position:relative}
+.trace::before{content:"";position:absolute;left:82px;top:10px;bottom:10px;width:1px;background:var(--line-soft)}
+.trace li{display:grid;grid-template-columns:62px 1fr;gap:30px;padding:0 0 26px;position:relative}
+.trace li::before{content:"";position:absolute;left:78px;top:6px;width:9px;height:9px;border-radius:50%;
+  background:var(--yellow);box-shadow:0 0 0 4px rgba(252,238,10,.12)}
+.t-date{font:400 10.5px var(--f-mono);letter-spacing:.08em;color:var(--faint);padding-top:2px}
+.t-body h3{font:600 15px var(--f-ui);letter-spacing:.02em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.t-body p{margin-top:5px;font-size:13px;color:var(--dim);line-height:1.8}
+
+/* 下载 */
+.dl-list{display:flex;flex-direction:column;gap:12px}
+.dl{border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:18px 20px;transition:.2s}
+.dl:hover{border-color:var(--line)}
+.dl-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dl .badge{position:static;flex:none}
+.dl-name{font:600 15px var(--f-ui);letter-spacing:.02em}
+.dl-size{margin-left:auto;color:var(--faint);font-size:10px;letter-spacing:.08em}
+.dl p{margin-top:9px;font-size:12.5px;color:var(--dim);line-height:1.8}
+.dl-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}
+.dl-links a,.dl-links button{padding:7px 13px;border:1px solid var(--line-soft);background:rgba(255,255,255,.03);
+  color:var(--dim);font:400 10.5px var(--f-mono);letter-spacing:.08em;transition:.2s;cursor:pointer}
+.dl-links a:hover,.dl-links button:hover{color:var(--yellow);border-color:var(--yellow);background:rgba(252,238,10,.08)}
+
+/* 留言墙 */
+.guest{margin-top:36px;border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:22px}
+.guest-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.guest-head h3{font:600 16px var(--f-ui);letter-spacing:.02em}
+.guest-head .mono{font:400 10px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
+.guest-note{font-size:12.5px;color:var(--dim);line-height:1.85}
+.guest-note a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.4)}
+
+/* 管理 */
+.mg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mg-card{border:1px solid var(--line-soft);background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:18px}
+.mg-card h3{font:600 14px var(--f-ui);margin-bottom:14px}
+.mg-card label{display:block;font:400 10px var(--f-mono);letter-spacing:.14em;color:var(--faint);margin-bottom:11px}
+.mg-card input,.mg-card select{display:block;width:100%;margin-top:5px;padding:8px 10px;
+  background:#08080d;border:1px solid var(--line-soft);color:var(--text);font:400 12px var(--f-mono);outline:none}
+.mg-card input:focus,.mg-card select:focus{border-color:var(--yellow)}
+.mg-card pre{margin-top:12px;padding:12px;background:#08080d;border:1px solid var(--line-soft);
+  font:400 11px/1.6 var(--f-mono);color:var(--cyan);white-space:pre-wrap;word-break:break-all;
+  max-height:190px;overflow:auto;cursor:copy}
+.mg-btn{margin-top:12px;padding:8px 18px;background:var(--yellow);color:#08080c;border:0;
+  font:700 10.5px var(--f-mono);letter-spacing:.12em;cursor:pointer}
+.mg-btn:hover{box-shadow:0 0 22px -6px rgba(252,238,10,.9)}
+.mg-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.mg-links a{padding:8px 14px;border:1px solid var(--line-soft);color:var(--dim);
+  font:400 10.5px var(--f-mono);letter-spacing:.08em;transition:.2s}
+.mg-links a:hover{color:var(--yellow);border-color:var(--yellow)}
+
 /* 页脚 */
 .foot{margin-top:66px;padding:26px 0 88px;border-top:1px solid var(--line-soft);
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
@@ -684,9 +735,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <a href="#/projects" data-page="projects">项目</a>
         <a href="#/photos" data-page="photos">照片墙<s>▦</s></a>
         <a href="#/music" data-page="music">音乐<s>♪</s></a>
+        <a href="#/footprints" data-page="footprints">足迹</a>
+        <a href="#/downloads" data-page="downloads">下载</a>
         <a href="#/contact" data-page="contact">联系</a>
         <a href="#/links" data-page="links">友链</a>
         <a href="about.html">关于</a>
+        <a href="#/manage" data-page="manage">管理</a>
       </nav>
     </div>
   </header>
@@ -958,6 +1012,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           <span class="cv">Mobius_msz</span>
           <span class="ca">复制</span>
         </button>
+        <button class="crow" id="csteam" type="button" aria-label="复制 Steam 好友代码">
+          <span class="ck">STEAM</span>
+          <span class="cv">1235166725</span>
+          <span class="ca">复制</span>
+        </button>
       </div>
     </section>
     </div><!-- /page-contact -->
@@ -984,6 +1043,169 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </div>
     </section>
     </div><!-- /page-links -->
+
+        <div class="page" id="page-footprints">
+    <section class="sec" id="footprints">
+      <div class="sec-head">
+        <h2><i>TRACE//05</i>足迹</h2>
+        <span class="hint">[ 走过的地方 · 做过的事 ]</span>
+      </div>
+
+      <ol class="trace">
+        <li>
+          <span class="t-date mono">2026.08</span>
+          <div class="t-body">
+            <h3>西湖 · 环湖 35.10 公里</h3>
+            <p>9 小时 34 分，53754 步，855 米爬升。回来腿废了三天，但地图上那条绿线看着挺爽。</p>
+          </div>
+        </li>
+        <li>
+          <span class="t-date mono">2026.10</span>
+          <div class="t-body">
+            <h3>《星火：渡》发布</h3>
+            <p>第一个做完又开源的东西。两个关卡，场景、美术、音效全是代码在运行时生成的。</p>
+          </div>
+        </li>
+        <li>
+          <span class="t-date mono">2026.11</span>
+          <div class="t-body">
+            <h3>mobius.wang 上线</h3>
+            <p>第一版网站，没有框架，一个 HTML 文件加一点偏执。</p>
+          </div>
+        </li>
+        <li>
+          <span class="t-date mono">2026.11</span>
+          <div class="t-body">
+            <h3>新实验室 · 第一块板子开焊</h3>
+            <p>人脸识别还不认我，但板子已经躺在桌上了。点灯是第一目标。</p>
+          </div>
+        </li>
+        <li>
+          <span class="t-date mono">2027</span>
+          <div class="t-body">
+            <h3>上海 Major <span class="tag">计划</span></h3>
+            <p>明年去看。票还没买，先记在这儿。</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="guest">
+        <div class="guest-head"><h3>留下你的足迹</h3><span class="mono">GUESTBOOK</span></div>
+        <div id="giscusMount"></div>
+        <p class="guest-note" id="guestNote">
+          留言墙准备接在 GitHub Discussions 上，还差最后一步授权。<br>
+          现在想说话的话：去 <a href="https://github.com/Mobius-msz/mobius-shell/discussions" target="_blank" rel="noopener">讨论区</a> 开个帖，或者 <a href="#/contact">发邮件 / 微信</a> 给我——我看到都会回。
+        </p>
+      </div>
+    </section>
+    </div><!-- /page-footprints -->
+
+    <div class="page" id="page-downloads">
+    <section class="sec" id="downloads">
+      <div class="sec-head">
+        <h2><i>FILE//06</i>下载</h2>
+        <span class="hint">[ 04 FILES ]</span>
+      </div>
+
+      <div class="dl-list">
+        <article class="dl">
+          <div class="dl-top">
+            <span class="badge mono">GAME</span>
+            <span class="dl-name">星火：渡 v1.0</span>
+            <span class="dl-size mono">WINDOWS X64 · 4.8 GB · 3 卷</span>
+          </div>
+          <p>长征题材的第一人称射击原型。三个分卷全部下载后解压，运行 <code>Build\Starfire.exe</code>。解压需要 7-Zip。</p>
+          <div class="dl-links">
+            <a href="https://github.com/Mobius-msz/Starfire/releases/download/v1.0/game.7z.001">分卷 1 · 1.9 GB</a>
+            <a href="https://github.com/Mobius-msz/Starfire/releases/download/v1.0/game.7z.002">分卷 2 · 1.9 GB</a>
+            <a href="https://github.com/Mobius-msz/Starfire/releases/download/v1.0/game.7z.003">分卷 3 · 979 MB</a>
+            <a href="https://github.com/Mobius-msz/Starfire/releases/tag/v1.0" target="_blank" rel="noopener">发布页 ↗</a>
+          </div>
+        </article>
+
+        <article class="dl">
+          <div class="dl-top">
+            <span class="badge mono">WALL</span>
+            <span class="dl-name">动态壁纸</span>
+            <span class="dl-size mono">MP4 · 1600×900 · 3.7 MB</span>
+          </div>
+          <p>首页背景那段视频，静音、循环，可以直接拿去做壁纸。</p>
+          <div class="dl-links"><a href="wallpaper.mp4" download>下载 MP4</a></div>
+        </article>
+
+        <article class="dl">
+          <div class="dl-top">
+            <span class="badge mono">WALL</span>
+            <span class="dl-name">壁纸静帧</span>
+            <span class="dl-size mono">JPG · 451 KB</span>
+          </div>
+          <p>视频的第一帧，当海报或者做封面都行。</p>
+          <div class="dl-links"><a href="wallpaper.jpg" download>下载 JPG</a></div>
+        </article>
+
+        <article class="dl">
+          <div class="dl-top">
+            <span class="badge mono">LINK</span>
+            <span class="dl-name">友链信息</span>
+            <span class="dl-size mono">TEXT · 一键复制</span>
+          </div>
+          <p>想交换友链的话，把下面这段直接复制过去。</p>
+          <div class="dl-links"><button type="button" id="copyLinkInfo">复制友链信息</button></div>
+        </article>
+      </div>
+    </section>
+    </div><!-- /page-downloads -->
+
+    <div class="page" id="page-manage">
+    <section class="sec" id="manage">
+      <div class="sec-head">
+        <h2><i>ADMIN//07</i>管理</h2>
+        <span class="hint">[ 静态站点工作台 ]</span>
+      </div>
+
+      <div class="mg-grid">
+        <div class="mg-card">
+          <h3>文章卡片</h3>
+          <label>编号<input id="mgIdx" placeholder="03"></label>
+          <label>标题<input id="mgTitle" placeholder="等待落笔"></label>
+          <label>摘要<input id="mgDesc" placeholder="这里还空着，位置先留着。"></label>
+          <label>日期<input id="mgDate" placeholder="2026.11.15"></label>
+          <label>类型
+            <select id="mgKind">
+              <option value="essay">随笔吐槽</option>
+              <option value="tech">干货分享</option>
+            </select>
+          </label>
+          <button class="mg-btn" type="button" id="mgGenPost">生成</button>
+          <pre id="mgPostOut">点「生成」，然后点这段文字复制。</pre>
+        </div>
+
+        <div class="mg-card">
+          <h3>照片条目</h3>
+          <label>文件名<input id="mgFile" placeholder="new-photo.jpg"></label>
+          <label>分类
+            <select id="mgCat">
+              <option value="life">生活</option>
+              <option value="lab">学习竞赛</option>
+              <option value="play">耍起</option>
+              <option value="memory">回忆</option>
+            </select>
+          </label>
+          <label>标题<input id="mgCap" placeholder="西湖 · 日落"></label>
+          <button class="mg-btn" type="button" id="mgGenShot">生成</button>
+          <pre id="mgShotOut">点「生成」，然后点这段文字复制。</pre>
+        </div>
+      </div>
+
+      <div class="mg-links">
+        <a href="https://github.com/Mobius-msz/mobius-shell" target="_blank" rel="noopener">仓库 ↗</a>
+        <a href="https://github.com/Mobius-msz/mobius-shell/commits/main" target="_blank" rel="noopener">提交记录 ↗</a>
+        <a href="https://github.com/Mobius-msz/mobius-shell/settings/pages" target="_blank" rel="noopener">Pages 设置 ↗</a>
+        <a href="https://console.dnspod.cn/dns/mobius.wang" target="_blank" rel="noopener">DNS ↗</a>
+        <a href="https://github.com/Mobius-msz/mobius-shell/discussions" target="_blank" rel="noopener">讨论区 ↗</a>
+      </div>
+    </section>
+    </div><!-- /page-manage -->
 
     <footer class="foot" id="foot">
       <span>© 2077 MOBIUS // SHELL · 用 HTML 和一点偏执写成</span>
@@ -1421,7 +1643,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   }
 
   /* ---- 分页路由 ---- */
-  var PAGES = ['home', 'archive', 'projects', 'photos', 'music', 'contact', 'links'];
+  var PAGES = ['home', 'archive', 'projects', 'photos', 'music', 'footprints', 'downloads', 'contact', 'links', 'manage'];
   function showPage(name){
     if (PAGES.indexOf(name) < 0) name = 'home';
     var ps = document.querySelectorAll('.page');
@@ -1688,6 +1910,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
   /* ---- 微信 / 邮箱：点一下复制 ---- */
   var WECHAT = 'Mobius_msz';
+  var STEAM_ID = '1235166725';
   var EMAIL = 'moshenzhe0917@163.com';
   var toastEl = document.createElement('div');
   toastEl.className = 'toast';
@@ -1729,6 +1952,77 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   bindCopy('mail2', EMAIL, '邮箱');
   bindCopy('cwechat', WECHAT, '微信号');
   bindCopy('cemail', EMAIL, '邮箱');
+  bindCopy('csteam', STEAM_ID, 'Steam 好友代码');
+  /* ---- \u4e0b\u8f7d\u9875\uff1a\u590d\u5236\u53cb\u94fe\u4fe1\u606f ---- */
+  var copyLink = document.getElementById('copyLinkInfo');
+  if (copyLink) copyLink.addEventListener('click', function(e){
+    copyText('\u540d\u79f0\uff1aMOBIUS // SHELL\n\u94fe\u63a5\uff1ahttps://mobius.wang\n\u5934\u50cf\uff1ahttps://mobius.wang/avatar.jpg\n\u7b80\u4ecb\uff1a\u7f8e\u597d\u7684\u4e8b\u7269\uff0c\u6c38\u4e0d\u6d88\u901d', '\u53cb\u94fe\u4fe1\u606f', e);
+  });
+
+  /* ---- \u7ba1\u7406\u53f0 ---- */
+  function mval(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  var mgPost = document.getElementById('mgGenPost');
+  if (mgPost) {
+    mgPost.addEventListener('click', function(){
+      var idx = mval('mgIdx') || '00';
+      var t = mval('mgTitle') || '\u7b49\u5f85\u843d\u7b14';
+      var d = mval('mgDesc') || '\u8fd9\u91cc\u8fd8\u7a7a\u7740\uff0c\u4f4d\u7f6e\u5148\u7559\u7740\u3002';
+      var dt = mval('mgDate') || '\u2014';
+      var k = document.getElementById('mgKind').value;
+      var label = k === 'tech' ? '\u5e72\u8d27' : '\u968f\u7b14';
+      var out = '<article class="post slim" data-kind="' + k + '" data-tags="\u5f85\u5199 \u7a7a\u4f4d"><div class="inner">\n'
+        + '  <div class="p-body">\n'
+        + '    <span class="slim-idx mono">' + idx + ' / ' + label + '</span>\n'
+        + '    <h3>' + t + '</h3>\n'
+        + '    <p>' + d + '</p>\n'
+        + '    <div class="p-meta"><span>' + dt + '</span><i class="dot"></i><span class="tag">' + label + '</span></div>\n'
+        + '  </div></div></article>';
+      document.getElementById('mgPostOut').textContent = out;
+    });
+  }
+  var mgShot = document.getElementById('mgGenShot');
+  if (mgShot) {
+    mgShot.addEventListener('click', function(){
+      var f = mval('mgFile') || 'new-photo.jpg';
+      var c = document.getElementById('mgCat').value;
+      var cap = mval('mgCap') || '\u672a\u547d\u540d';
+      document.getElementById('mgShotOut').textContent = "{ f: '" + f + "', c: '" + c + "', t: '" + cap + "' },";
+    });
+  }
+  var pres = document.querySelectorAll('.mg-card pre');
+  for (var pi = 0; pi < pres.length; pi++) {
+    pres[pi].addEventListener('click', function(e){ copyText(this.textContent, '\u4ee3\u7801', e); });
+  }
+
+  /* ---- \u7559\u8a00\u5899\uff08giscus\uff09---- */
+  var GISCUS = {
+    ready: false,
+    repo: 'Mobius-msz/mobius-shell',
+    repoId: 'R_kgDOVt-jcw',
+    category: 'General',
+    categoryId: 'DIC_kwDOVt-jc84DLIhH'
+  };
+  var gmount = document.getElementById('giscusMount');
+  if (gmount && GISCUS.ready) {
+    var gs = document.createElement('script');
+    gs.src = 'https://giscus.app/client.js';
+    gs.async = true;
+    gs.crossOrigin = 'anonymous';
+    gs.setAttribute('data-repo', GISCUS.repo);
+    gs.setAttribute('data-repo-id', GISCUS.repoId);
+    gs.setAttribute('data-category', GISCUS.category);
+    gs.setAttribute('data-category-id', GISCUS.categoryId);
+    gs.setAttribute('data-mapping', 'pathname');
+    gs.setAttribute('data-reactions-enabled', '1');
+    gs.setAttribute('data-input-position', 'top');
+    gs.setAttribute('data-theme', 'dark_dimmed');
+    gs.setAttribute('data-lang', 'zh-CN');
+    gs.setAttribute('data-loading', 'lazy');
+    gmount.appendChild(gs);
+    var gnote = document.getElementById('guestNote');
+    if (gnote) gnote.style.display = 'none';
+  }
+
 
   /* ---- 右下角常驻「联系」 ---- */
   var cbtn = document.getElementById('cbtn');
