@@ -2053,21 +2053,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   function loadFriends(){
     var grid = document.getElementById('friendGrid');
     if (!grid) return;
-    fetch('https://api.github.com/repos/' + GH_REPO + '/issues?labels=approved&state=all&per_page=60', { headers: { 'Accept': 'application/vnd.github+json' } })
+    fetch('friends.json?t=' + Date.now())
       .then(function(r){ return r.json(); })
       .then(function(list){
         if (!Array.isArray(list)) throw new Error('bad');
         var html = '';
         list.forEach(function(it){
-          if (it.pull_request) return;
-          var nick = hField(it.body, '\u6635\u79f0') || it.title.replace(/^\[[^\]]*\]\s*/, '');
-          var school = hField(it.body, '\u540c\u5b66');
-          var msg = hField(it.body, '\u4e00\u53e5\u8bdd');
           html += '<article class="friend-card">'
-            + '<span class="fc-nick">' + hEsc(nick) + '</span>'
-            + (school ? '<span class="fc-school mono">' + hEsc(school) + '</span>' : '')
-            + (msg ? '<p>' + hEsc(msg) + '</p>' : '')
-            + '<span class="fc-date mono">' + hEsc((it.closed_at || it.created_at).slice(0, 10)) + '</span>'
+            + '<span class="fc-nick">' + hEsc(it.nick) + '</span>'
+            + (it.school ? '<span class="fc-school mono">' + hEsc(it.school) + '</span>' : '')
+            + (it.msg ? '<p>' + hEsc(it.msg) + '</p>' : '')
+            + '<span class="fc-date mono">' + hEsc(it.date || '') + '</span>'
             + '</article>';
         });
         grid.innerHTML = html;
@@ -2167,7 +2163,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           });
         }
       })
-      .catch(function(){ box.textContent = '\u8bfb\u53d6\u5931\u8d25\uff0c\u7a0d\u540e\u518d\u8bd5\u3002'; });
+      .catch(function(){
+        box.innerHTML = '\u8bfb\u53d6\u5931\u8d25\uff08\u5f53\u524d\u7f51\u7edc\u62e6\u4e86 GitHub API\uff09\u3002'
+          + '<a href="https://github.com/Mobius-msz/mobius-shell/issues" target="_blank" rel="noopener" style="color:var(--yellow)">\u76f4\u63a5\u53bb GitHub \u5904\u7406 \u2197</a>';
+      });
   }
   var tokenInput = document.getElementById('mgToken');
   if (tokenInput) {
