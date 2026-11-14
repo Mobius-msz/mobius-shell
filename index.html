@@ -473,6 +473,37 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fgo{font:400 12px var(--f-mono);color:var(--yellow);flex:none}
 
+/* 分页 */
+.page{display:none}
+.page.on{display:block;animation:pageIn .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.page>.sec:first-child{margin-top:36px}
+
+/* 音乐页 */
+.mpanel{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:0;
+  border:1px solid var(--line);background:linear-gradient(160deg,#0e0e16,#08080d 62%)}
+.mnow{padding:30px 28px;border-right:1px solid var(--line-soft);display:flex;flex-direction:column;gap:8px}
+.mnow-label{color:var(--faint);letter-spacing:.24em}
+.mnow-title{font:700 30px/1.15 var(--f-disp);letter-spacing:.02em;margin-top:6px}
+.mnow-artist{font:400 10.5px var(--f-mono);letter-spacing:.14em;color:var(--yellow);text-transform:uppercase}
+.mnow-btn{margin-top:auto;align-self:flex-start;padding:11px 22px;background:var(--yellow);color:#08080c;
+  font:700 11px var(--f-mono);letter-spacing:.14em;border-radius:999px;transition:.2s}
+.mnow-btn:hover{box-shadow:0 0 30px -6px rgba(252,238,10,.9)}
+.mnow-btn .pa{display:none}
+.mnow-btn.on .pl{display:none}
+.mnow-btn.on .pa{display:inline}
+.tracklist{display:flex;flex-direction:column}
+.tl-row{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:14px;
+  width:100%;padding:14px 20px;border:0;border-bottom:1px solid var(--line-soft);
+  background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:.18s}
+.tl-row:last-child{border-bottom:0}
+.tl-row:hover{background:rgba(252,238,10,.06)}
+.tl-row.playing{background:rgba(252,238,10,.10)}
+.tl-row.playing .tl-name{color:var(--yellow)}
+.tl-idx{font:400 10px var(--f-mono);color:var(--faint)}
+.tl-name{font:600 14px var(--f-ui);letter-spacing:.02em;transition:.2s}
+.tl-artist{font:400 9.5px var(--f-mono);letter-spacing:.08em;color:var(--faint)}
+
 /* 页脚 */
 .foot{margin-top:66px;padding:26px 0 88px;border-top:1px solid var(--line-soft);
   display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;
@@ -639,20 +670,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <nav class="links" id="links">
-        <a href="#" class="on">首页</a>
-        <a href="#projects">项目</a>
-        <a href="#posts">归档</a>
-        <a href="#photos">照片墙<s>▦</s></a>
-        <a href="#player">音乐<s>♪</s></a>
-        <a href="#posts">杂谈</a>
-        <a href="#contact">联系</a>
-        <a href="#links">友链</a>
-        <a href="#foot">关于</a>
+        <a href="#home" data-page="home">首页</a>
+        <a href="#archive" data-page="archive">文章</a>
+        <a href="#projects" data-page="projects">项目</a>
+        <a href="#photos" data-page="photos">照片墙<s>▦</s></a>
+        <a href="#music" data-page="music">音乐<s>♪</s></a>
+        <a href="#contact" data-page="contact">联系</a>
+        <a href="#links" data-page="links">友链</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
+
+    <div class="page on" id="page-home">
     <section class="hero">
       <div class="eyebrow mono"><i></i>在线 · 第 <b id="days">0</b> 天</div>
       <h1>MOBIUS <span class="g">SHELL</span></h1>
@@ -736,10 +767,20 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </div>
     </div>
 
-    <section class="sec" id="posts">
+    <section class="sec" id="latest">
       <div class="sec-head">
         <h2><i>DATA//01</i>最新文章</h2>
-        <a href="#">[ VIEW ALL ]</a>
+        <a href="#archive">[ 全部文章 → ]</a>
+      </div>
+      <div class="posts" id="homePosts"></div>
+    </section>
+    </div><!-- /page-home -->
+
+    <div class="page" id="page-archive">
+    <section class="sec" id="posts">
+      <div class="sec-head">
+        <h2><i>ARCHIVE//01</i>全部文章</h2>
+        <span class="hint">[ 07 POSTS ]</span>
       </div>
       <div class="posts" id="postGrid">
         <article class="post featured" data-tags="开篇 随笔 博客">
@@ -797,7 +838,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
           </div></div></article>
       </div>
     </section>
+    </div><!-- /page-archive -->
 
+    <div class="page" id="page-projects">
     <section class="sec" id="projects">
       <div class="sec-head">
         <h2><i>REPO//02</i>项目</h2>
@@ -836,7 +879,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         </article>
       </div>
     </section>
+    </div><!-- /page-projects -->
 
+    <div class="page" id="page-photos">
     <section class="sec" id="photos">
       <div class="sec-head"><h2><i>IMG//03</i>照片墙</h2><a href="#" id="shotCount">[ 29 SHOTS ]</a></div>
       <div class="gal-tabs" id="galTabs">
@@ -848,7 +893,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </div>
       <div class="gal-grid" id="galGrid"></div>
     </section>
+    </div><!-- /page-photos -->
 
+    <div class="page" id="page-music">
+    <section class="sec">
+      <div class="sec-head">
+        <h2><i>AUDIO//04</i>音乐</h2>
+        <span class="hint">[ 08 TRACKS · 点击播放 ]</span>
+      </div>
+      <div class="mpanel">
+        <div class="mnow">
+          <div class="mnow-label mono">NOW PLAYING</div>
+          <div class="mnow-title" id="mpTitle">Copper Nights</div>
+          <div class="mnow-artist" id="mpArtist">Pink Sound · Jazz</div>
+          <button class="mnow-btn" id="mpPlay"><span class="pl">▶ 播放</span><span class="pa">❚❚ 暂停</span></button>
+        </div>
+        <div class="tracklist" id="tracklist"></div>
+      </div>
+    </section>
+    </div><!-- /page-music -->
+
+    <div class="page" id="page-contact">
     <section class="sec" id="contact">
       <div class="sec-head">
         <h2><i>CONTACT//04</i>联系方式</h2>
@@ -872,8 +937,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         </button>
       </div>
     </section>
+    </div><!-- /page-contact -->
 
-    <section class="sec" id="links">
+    <div class="page" id="page-links">
+    <section class="sec" id="friendlinks">
       <div class="sec-head">
         <h2><i>LINK//05</i>友链</h2>
         <span class="hint">[ 欢迎交换 ]</span>
@@ -893,6 +960,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         </a>
       </div>
     </section>
+    </div><!-- /page-links -->
 
     <footer class="foot" id="foot">
       <span>© 2077 MOBIUS // SHELL · 用 HTML 和一点偏执写成</span>
@@ -901,7 +969,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <a href="#" id="mail2">EMAIL</a>
         <a href="#" id="wechat2">WECHAT</a>
         <a href="#links">友链</a>
-        <a href="#posts">BLOG</a>
+        <a href="#archive">BLOG</a>
       </nav>
     </footer>
   </main>
@@ -1178,6 +1246,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     btn.classList.toggle('on', on);
     dockBtn.classList.toggle('on', on);
     if (playerEl) playerEl.classList.toggle('playing', on);
+    var mpBtn = document.getElementById('mpPlay');
+    if (mpBtn) mpBtn.classList.toggle('on', on);
   }
 
   function load(i, autoplay){
@@ -1193,6 +1263,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     if (db) db.textContent = it.title;
     if (ds) ds.textContent = it.artist;
     if (fmIdx) fmIdx.textContent = pad2(idx + 1) + ' / ' + pad2(list.length);
+    var mt = document.getElementById('mpTitle'), ma = document.getElementById('mpArtist');
+    if (mt) mt.textContent = it.title;
+    if (ma) ma.textContent = it.artist;
+    var rows = document.querySelectorAll('.tl-row');
+    for (var r = 0; r < rows.length; r++) rows[r].classList.toggle('playing', r === idx);
     fill.style.width = '0%';
     cur.textContent = '00:00';
     dur.textContent = '--:--';
@@ -1251,6 +1326,65 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   });
 
   load(idx, false);
+
+  /* ---- 音乐页：曲目列表 ---- */
+  var tl = document.getElementById('tracklist');
+  if (tl) {
+    for (var ti = 0; ti < list.length; ti++) {
+      (function(n){
+        var row = document.createElement('button');
+        row.className = 'tl-row';
+        row.type = 'button';
+        row.innerHTML = '<span class="tl-idx">' + pad2(n + 1) + '</span>'
+                      + '<span class="tl-name">' + list[n].title + '</span>'
+                      + '<span class="tl-artist">' + list[n].artist + '</span>';
+        row.addEventListener('click', function(){ load(n, true); });
+        tl.appendChild(row);
+      })(ti);
+    }
+    var rowsInit = document.querySelectorAll('.tl-row');
+    for (var rr = 0; rr < rowsInit.length; rr++) rowsInit[rr].classList.toggle('playing', rr === idx);
+  }
+  var mpPlay = document.getElementById('mpPlay');
+  if (mpPlay) mpPlay.addEventListener('click', togglePlay);
+
+  /* ---- 首页：克隆最新 3 篇 ---- */
+  var homePosts = document.getElementById('homePosts');
+  if (homePosts) {
+    var srcPosts = document.querySelectorAll('#postGrid .post');
+    for (var hp = 0; hp < 3 && hp < srcPosts.length; hp++) {
+      homePosts.appendChild(srcPosts[hp].cloneNode(true));
+    }
+  }
+
+  /* ---- 分页路由 ---- */
+  var PAGES = ['home', 'archive', 'projects', 'photos', 'music', 'contact', 'links'];
+  function showPage(name){
+    if (PAGES.indexOf(name) < 0) name = 'home';
+    var ps = document.querySelectorAll('.page');
+    for (var i = 0; i < ps.length; i++) ps[i].classList.toggle('on', ps[i].id === 'page-' + name);
+    var as = document.querySelectorAll('.links a[data-page]');
+    for (var j = 0; j < as.length; j++) as[j].classList.toggle('on', as[j].getAttribute('data-page') === name);
+    var links = document.getElementById('links');
+    if (links) links.classList.remove('open');
+    scrollTo(0, 0);
+  }
+  function hashPage(){
+    var h = (location.hash || '').replace('#', '');
+    return PAGES.indexOf(h) >= 0 ? h : 'home';
+  }
+  showPage(hashPage());
+  addEventListener('hashchange', function(){ showPage(hashPage()); });
+  document.addEventListener('click', function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var name = a.getAttribute('href').slice(1);
+    if (PAGES.indexOf(name) >= 0) {
+      e.preventDefault();
+      showPage(name);
+      try { history.replaceState(null, '', '#' + name); } catch (err) {}
+    }
+  });
 
   /* ---- 首次点击页面任意处就开始播放 ---- */
   var armed = true;

@@ -1,0 +1,24 @@
+{
+  "url": "https://api.github.com/repos/Mobius-msz/mobius-shell/pages",
+  "status": "built",
+  "cname": "mobius.wang",
+  "custom_404": false,
+  "html_url": "https://mobius.wang/",
+  "build_type": "legacy",
+  "source": {
+    "branch": "main",
+    "path": "/"
+  },
+  "public": true,
+  "protected_domain_state": null,
+  "pending_domain_unverified_at": null,
+  "https_certificate": {
+    "state": "approved",
+    "description": "The certificate has been approved.",
+    "domains": [
+      "mobius.wang"
+    ],
+    "expires_at": "2027-02-12"
+  },
+  "https_enforced": true
+}
