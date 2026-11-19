@@ -377,7 +377,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border-bottom:1px solid var(--line-soft);
   background:linear-gradient(90deg,rgba(252,238,10,.07),transparent 72%)}
 .repo .badge{position:static;flex:none}
-.repo .repo-id{font:400 9.5px var(--f-mono);letter-spacing:.04em;color:var(--faint);
+.repo .repo-id{font:400 9.5px var(--f-mono);letter-spacing:.04em;color:var(--faint);text-decoration:none;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.2s}
 .repo:hover .repo-id{color:var(--yellow)}
 .repo .p-body{padding-top:15px}
@@ -1071,7 +1071,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     <section class="sec" id="projects">
       <div class="sec-head">
         <h2><i>REPO//02</i>项目</h2>
-        <a href="https://github.com/Mobius-msz" target="_blank" rel="noopener">[ GITHUB ]</a>
+        <span class="hint">[ 05 REPOS ]</span>
       </div>
       <div class="posts">
         <article class="post repo">
@@ -1079,8 +1079,38 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <div class="repo-top"><span class="badge mono">C#</span><span class="repo-id">Mobius-msz / Starfire</span></div>
             <div class="p-body">
               <h3>Starfire · 星火：渡</h3>
-              <p>以长征为背景的第一人称射击原型，两个关卡——血战湘江、四渡赤水。场景、美术、音效全部由代码在运行时生成，不依赖任何外部素材。</p>
-              <div class="p-meta"><span>2026.10.30</span><i class="dot"></i><span class="tag">团结引擎</span><i class="dot"></i><span class="tag">FPS</span></div>
+              <p>以长征为背景的第一人称射击原型，两个关卡——血战湘江、四渡赤水。场景、美术、音效全部由代码在运行时生成。</p>
+              <div class="p-meta"><span>2026.10.30</span><i class="dot"></i><span class="tag">[团结引擎]</span><i class="dot"></i><span class="tag">FPS</span></div>
+            </div>
+          </a>
+        </article>
+        <article class="post repo">
+          <div class="inner">
+            <div class="repo-top"><span class="badge mono">JS</span><a class="repo-id" href="https://github.com/Mobius-msz/zhuangbushang" target="_blank" rel="noopener">Mobius-msz / zhuangbushang</a></div>
+            <div class="p-body">
+              <h3><a href="https://mobius-msz.github.io/zhuangbushang/" target="_blank" rel="noopener">撞不上 · 校园日程排班器 ↗</a></h3>
+              <p>课表、二课、作业、阳光乐跑——四套互不相通的系统塞进一张桌子：做四类冲突判定（时间重叠 / 转场来不及 / 当天过载 / 名额时效）。</p>
+              <div class="p-meta"><span>2026.11.19</span><i class="dot"></i><a class="tag" href="https://mobius-msz.github.io/zhuangbushang/" target="_blank" rel="noopener">在线可用 ↗</a><i class="dot"></i><a class="tag" href="https://github.com/Mobius-msz/zhuangbushang" target="_blank" rel="noopener">源码 ↗</a></div>
+            </div>
+          </div>
+        </article>
+        <article class="post repo">
+          <a href="https://github.com/Mobius-msz/8051-Microcontroller" target="_blank" rel="noopener">
+            <div class="repo-top"><span class="badge mono">C</span><span class="repo-id">Mobius-msz / 8051-Microcontroller</span></div>
+            <div class="p-body">
+              <h3>51 串口密码锁</h3>
+              <p>AT89C52 上的六位密码锁：矩阵键盘输入、8 位数码管、AT24C02 掉电保存密码。错 3 次等 30 秒、错 5 次锁 60 秒，15 秒不操作自动上锁。</p>
+              <div class="p-meta"><span>2026.11.17</span><i class="dot"></i><span class="tag">[Keil C51]</span></div>
+            </div>
+          </a>
+        </article>
+        <article class="post repo">
+          <a href="https://github.com/Mobius-msz/STM32-Coding-Repository" target="_blank" rel="noopener">
+            <div class="repo-top"><span class="badge mono">C</span><span class="repo-id">Mobius-msz / STM32-Coding-Repository</span></div>
+            <div class="p-body">
+              <h3>STM32 练习仓库</h3>
+              <p>STM32F103 的学习工程集合：HAL 13 个、标准库复习 9 个、江协课程例程 36 个，合计 58 个 Keil MDK 工程。</p>
+              <div class="p-meta"><span>2026.11.16</span><i class="dot"></i><span class="tag">[HAL + SPL]</span></div>
             </div>
           </a>
         </article>
@@ -1090,7 +1120,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <div class="p-body">
               <h3>Solidworks_Study</h3>
               <p>SolidWorks 建模练习存档：零件、装配体与踩过的坑。</p>
-              <div class="p-meta"><span>2026.11.05</span><i class="dot"></i><span class="tag">建模</span></div>
+              <div class="p-meta"><span>2026.11.14</span><i class="dot"></i><span class="tag">[建模]</span></div>
             </div>
           </a>
         </article>
@@ -1100,7 +1130,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <div class="p-body">
               <h3>更多仓库 →</h3>
               <p>去 GitHub 主页看全部：代码、硬件、以及还没写完的想法。</p>
-              <div class="p-meta"><span>PROFILE</span><i class="dot"></i><span class="tag">→</span></div>
+              <div class="p-meta"><span>PROFILE</span><i class="dot"></i><span class="tag">[→]</span></div>
             </div>
           </a>
         </article>
