@@ -92,7 +92,7 @@ a{color:inherit;text-decoration:none}
 .post figure a{display:block;border-bottom:0;position:relative}
 .post figure a:hover{background:none}
 .post figure a:hover img{outline:1px solid rgba(252,238,10,.55);outline-offset:-1px}
-.post figure a::after{content:"点开看原图 ↗";position:absolute;right:8px;bottom:8px;
+.post figure a::after{content:"点击放大 ⌗";position:absolute;right:8px;bottom:8px;
   padding:4px 9px;background:rgba(8,8,14,.82);border:1px solid var(--line-soft);
   font:400 9.5px var(--f-mono);letter-spacing:.06em;color:var(--faint);opacity:0;transition:.2s}
 .post figure a:hover::after{opacity:1}
@@ -296,7 +296,7 @@ a{color:inherit;text-decoration:none}
         </figure>
       </div>
 
-      <p class="note">图是嘉立创 EDA 导出的多页拼图，缩小看会糊——点开任意一张看原图，能看清网络标号。标题栏上的创建日期是 2026-11-17，版本 V1.0。</p>
+      <p class="note">图是嘉立创 EDA 导出的多页拼图，缩小看会糊——点任意一张就能放大，能看清网络标号。标题栏上的创建日期是 2026-11-17，版本 V1.0。</p>
 
       <h2 id="pcb">二、PCB 设计</h2>
 
@@ -683,6 +683,7 @@ HAL_RCC_ClockConfig(&amp;clk, FLASH_LATENCY_5);</code></pre>
 
 <audio id="bgm" preload="metadata"></audio>
 <button class="mbgm" id="mbgm" type="button" aria-label="音乐" hidden>♪</button>
+<script src="imgzoom.js"></script>
 <script src="music-state.js"></script>
 <script>
 (function(){
