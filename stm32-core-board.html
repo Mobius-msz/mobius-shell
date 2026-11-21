@@ -558,6 +558,8 @@ HAL_RCC_ClockConfig(&amp;clk, FLASH_LATENCY_5);</code></pre>
         <li><strong>串口乱码</strong> —— 波特率对不上，或者晶振没起振，跑的是内部 HSI</li>
       </ul>
 
+      <p class="note">不想从零建工程的话，我把这个流水灯工程打包成了模板：<a href="files/f407-led-template.zip" download>下载 STM32F407VGT6 流水灯模板（ZIP，610 KB）</a>。里面有启动文件、F4 固件库、LED 驱动和 <code>project.uvprojx</code>，双击就能在 Keil 里打开。注意：模板里不带器件支持包（.pack），得自己在 Pack Installer 里装一次。</p>
+
       <blockquote>
         <p>一句话总结：硬件上电之前先测短路，软件下载之前先对时钟。</p>
       </blockquote>
