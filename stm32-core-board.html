@@ -88,6 +88,16 @@ a{color:inherit;text-decoration:none}
 .post a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.45)}
 .post a:hover{background:rgba(252,238,10,.12)}
 
+/* 图片可点开 */
+.post figure a{display:block;border-bottom:0;position:relative}
+.post figure a:hover{background:none}
+.post figure a:hover img{outline:1px solid rgba(252,238,10,.55);outline-offset:-1px}
+.post figure a::after{content:"点开看原图 ↗";position:absolute;right:8px;bottom:8px;
+  padding:4px 9px;background:rgba(8,8,14,.82);border:1px solid var(--line-soft);
+  font:400 9.5px var(--f-mono);letter-spacing:.06em;color:var(--faint);opacity:0;transition:.2s}
+.post figure a:hover::after{opacity:1}
+.post figure img{cursor:zoom-in}
+
 /* 目录 */
 .toc{margin:32px 0 6px;border:1px solid var(--line-soft);
   background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:18px 20px}
@@ -269,24 +279,24 @@ a{color:inherit;text-decoration:none}
 
       <div class="figs">
         <figure>
-          <img src="img/sch-1.jpg" alt="原理图 1">
+          <a href="img/sch-1.jpg" target="_blank" rel="noopener"><img src="img/sch-1.jpg" alt="原理图 1" loading="lazy"></a>
           <figcaption>原理图 1 · 电源与接口</figcaption>
         </figure>
         <figure>
-          <img src="img/sch-2.jpg" alt="原理图 2">
+          <a href="img/sch-2.jpg" target="_blank" rel="noopener"><img src="img/sch-2.jpg" alt="原理图 2" loading="lazy"></a>
           <figcaption>原理图 2 · 主控与滤波</figcaption>
         </figure>
         <figure>
-          <img src="img/sch-3.jpg" alt="原理图 3">
+          <a href="img/sch-3.jpg" target="_blank" rel="noopener"><img src="img/sch-3.jpg" alt="原理图 3" loading="lazy"></a>
           <figcaption>原理图 3 · 外设</figcaption>
         </figure>
         <figure>
-          <img src="img/sch-4.jpg" alt="原理图 4">
+          <a href="img/sch-4.jpg" target="_blank" rel="noopener"><img src="img/sch-4.jpg" alt="原理图 4" loading="lazy"></a>
           <figcaption>原理图 4 · 引脚与标题栏</figcaption>
         </figure>
       </div>
 
-      <p class="note">图是嘉立创 EDA 导出的多页拼图，缩小看会糊——点开原图能看清网络标号。标题栏上的创建日期是 2026-11-17，版本 V1.0。</p>
+      <p class="note">图是嘉立创 EDA 导出的多页拼图，缩小看会糊——点开任意一张看原图，能看清网络标号。标题栏上的创建日期是 2026-11-17，版本 V1.0。</p>
 
       <h2 id="pcb">二、PCB 设计</h2>
 
@@ -431,7 +441,7 @@ a{color:inherit;text-decoration:none}
       <p>第一版板子打回来，上电的那一瞬间，<strong>电源指示灯就炸了</strong>。</p>
 
       <figure>
-        <img src="img/pcb-ams1117.jpg" alt="AMS1117 焊盘">
+        <a href="img/pcb-ams1117.jpg" target="_blank" rel="noopener"><img src="img/pcb-ams1117.jpg" alt="AMS1117 焊盘" loading="lazy"></a>
         <figcaption>第一版 PCB：4 脚（散热焊盘）没有连到 3.3V 铺铜，只有一根细线从旁边搭过来</figcaption>
       </figure>
 
