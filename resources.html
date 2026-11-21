@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06060a">
+<title>资源分享站</title>
+<link rel="preload" as="image" href="wallpaper.jpg" fetchpriority="high">
+<style>
+:root{
+  --bg:#06060a; --ink:#f2f2f4;
+  --dim:rgba(242,242,244,.66); --faint:rgba(242,242,244,.38);
+  --yellow:#fcee0a; --cyan:#00f0ff; --red:#ff2a3d;
+  --line:rgba(252,238,10,.20); --line-soft:rgba(255,255,255,.10);
+  --f-ui:"Bahnschrift","Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+  --f-disp:"Bahnschrift SemiCondensed","Bahnschrift","Segoe UI",system-ui,sans-serif;
+  --f-mono:"Cascadia Mono","Consolas","JetBrains Mono",ui-monospace,monospace;
+  --f-sys:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
+  font:15px/1.75 var(--f-ui);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--yellow);color:#08080c}
+.mono{font-family:var(--f-mono);letter-spacing:.18em;text-transform:uppercase;font-size:10.5px}
+
+.scenery{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#050508}
+.scenery::before{content:"";position:absolute;inset:-4%;
+  background:url("wallpaper.jpg") center 42%/cover no-repeat;
+  filter:saturate(.6) contrast(1.16) brightness(.5) hue-rotate(-8deg)}
+.scenery::after{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(80% 50% at 12% 6%,rgba(0,240,255,.12),transparent 60%),
+    linear-gradient(180deg,rgba(4,4,8,.88) 0%,rgba(4,4,8,.66) 30%,rgba(4,4,8,.86) 100%),
+    repeating-linear-gradient(180deg,rgba(0,0,0,.30) 0 1px,transparent 1px 3px)}
+
+.wrap{position:relative;z-index:1;width:min(100% - 40px,820px);margin-inline:auto}
+
+.nav{position:sticky;top:0;z-index:20;height:66px;display:flex;align-items:center;
+  border-bottom:1px solid var(--line-soft);background:rgba(6,6,10,.82);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.nav-in{width:min(100% - 40px,1180px);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:7px;font:700 15px/1 var(--f-sys);
+  letter-spacing:.12em;text-transform:uppercase}
+.brand b{width:7px;height:7px;background:var(--yellow);box-shadow:0 0 14px rgba(252,238,10,.9);
+  animation:blink 2.4s steps(1) infinite}
+@keyframes blink{0%,60%{opacity:1}61%,100%{opacity:.15}}
+.back{font:400 11px var(--f-sys);letter-spacing:.06em;color:var(--dim);
+  padding:7px 12px;border:1px solid var(--line-soft);transition:.2s}
+.back:hover{background:var(--yellow);border-color:var(--yellow);color:#08080c}
+
+.art{margin-top:52px}
+.art .kicker{display:inline-flex;align-items:center;gap:9px;padding:6px 13px;
+  border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.07);color:var(--cyan);
+  clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px)}
+.art h1{margin:20px 0 14px;font:700 clamp(32px,5.4vw,54px)/1.08 var(--f-disp);
+  letter-spacing:.02em;text-transform:uppercase}
+.art h1 span{color:var(--yellow)}
+.art .meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  font:400 10px var(--f-mono);letter-spacing:.14em;color:var(--faint);text-transform:uppercase;
+  padding-bottom:22px;border-bottom:1px solid var(--line-soft)}
+.art .meta .dot{width:3px;height:3px;background:currentColor}
+.art .meta .tag{padding:3px 7px;border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.1);color:var(--cyan)}
+
+.post{margin:34px 0 0;max-width:100%}
+.post p{margin:0 0 22px;font-size:15.5px;line-height:2.05;color:var(--dim)}
+.post p.lead{font-size:17px;line-height:2;color:var(--ink)}
+.post strong{color:var(--yellow);font-weight:600}
+.post em{font-style:normal;color:var(--cyan)}
+.post h2{margin:46px 0 16px;font:700 19px/1.2 var(--f-disp);letter-spacing:.1em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px}
+.post h2::before{content:"";width:4px;height:16px;background:var(--yellow);box-shadow:0 0 14px rgba(252,238,10,.8)}
+.post ul{margin:0 0 24px;padding:0;list-style:none}
+.post li{position:relative;padding-left:20px;margin-bottom:10px;font-size:15px;line-height:1.95;color:var(--dim)}
+.post li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;
+  background:var(--yellow);transform:rotate(45deg)}
+.post blockquote{margin:28px 0;padding:18px 22px;border-left:2px solid var(--yellow);
+  background:linear-gradient(90deg,rgba(252,238,10,.08),transparent 70%);
+  font:400 16px/1.9 var(--f-ui);color:var(--ink)}
+.post blockquote p{margin:0;font-size:16px;color:var(--ink)}
+.post .sign{margin-top:36px;font:400 11px var(--f-mono);letter-spacing:.16em;color:var(--faint);
+  text-transform:uppercase;text-align:right}
+.post code{font:400 13px var(--f-mono);background:rgba(255,255,255,.07);
+  padding:2px 6px;border:1px solid var(--line-soft);color:var(--cyan);overflow-wrap:anywhere}
+.post a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.45)}
+.post a:hover{background:rgba(252,238,10,.12)}
+
+/* 资源条目 */
+.res{display:flex;gap:14px;padding:15px 16px;border:1px solid var(--line-soft);
+  background:linear-gradient(160deg,#0e0e16,#08080d 60%);margin:0 0 10px;transition:.2s}
+.res:hover{border-color:rgba(252,238,10,.35);transform:translateX(2px)}
+.res-i{flex:none;width:26px;height:26px;display:grid;place-items:center;margin-top:2px;
+  font:600 10px var(--f-mono);color:var(--yellow);border:1px solid rgba(252,238,10,.3);
+  background:rgba(252,238,10,.06)}
+.res-b{min-width:0;flex:1}
+.res-t{display:block;font:600 14.5px/1.4 var(--f-ui);color:var(--ink);letter-spacing:.02em}
+.res-t:hover{color:var(--yellow)}
+.res-d{margin:4px 0 0;font-size:12.5px;line-height:1.75;color:var(--dim)}
+.res-u{margin-top:5px;font:400 9.5px var(--f-mono);letter-spacing:.05em;color:var(--faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.res.empty{opacity:.5;border-style:dashed}
+.res.empty .res-t{color:var(--faint)}
+.res.empty .res-i{color:var(--faint);border-color:var(--line-soft);background:none}
+
+/* 标签 / 互动 / 评论 */
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:26px 0 0}
+.tags span{padding:4px 10px;border:1px solid var(--line-soft);border-radius:999px;
+  font:400 10.5px var(--f-mono);letter-spacing:.06em;color:var(--dim)}
+.act{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  margin:30px 0 0;padding:16px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.act-info{font:400 11px var(--f-mono);letter-spacing:.04em;color:var(--faint)}
+.act-btns{display:flex;gap:10px}
+.act-btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:1px solid var(--line-soft);
+  background:none;color:var(--dim);font:400 11px var(--f-sys);cursor:pointer;transition:.2s;border-radius:4px}
+.act-btn:hover{color:var(--yellow);border-color:var(--yellow)}
+.act-btn.on{color:var(--yellow);border-color:var(--yellow);background:rgba(252,238,10,.08)}
+.act-btn svg{width:14px;height:14px}
+.cmt{margin-top:34px}
+.cmt-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.cmt-head h3{font:600 15px var(--f-ui);letter-spacing:.02em}
+.cmt-head .mono{font:400 9.5px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
+
+.end{margin:54px 0 0;padding-top:22px;border-top:1px solid var(--line-soft);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.end span{font:400 10px var(--f-mono);letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+.end a{font:400 11px var(--f-sys);letter-spacing:.06em;color:var(--dim);
+  padding:8px 14px;border:1px solid var(--line-soft);transition:.2s}
+.end a:hover{background:var(--yellow);border-color:var(--yellow);color:#08080c}
+
+.foot{margin:60px 0 0;padding:22px 0 70px;border-top:1px solid var(--line-soft);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;
+  font:400 10px var(--f-mono);letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+
+.mbgm{position:fixed;right:22px;bottom:22px;z-index:60;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(10,10,16,.82);color:var(--dim);
+  font:600 15px var(--f-sys);cursor:pointer;backdrop-filter:blur(8px);
+  display:grid;place-items:center;transition:.2s}
+.mbgm:hover{color:var(--yellow);border-color:var(--yellow)}
+.mbgm.on{color:#08080c;background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 24px -4px rgba(252,238,10,.8)}
+
+.brand{text-transform:none;letter-spacing:.03em;font-size:19px;font-weight:800}
+
+@media(max-width:760px){
+  .art{margin-top:34px}
+  .post p{font-size:15px;line-height:1.95}
+  .nav{height:58px}
+  .brand{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+
+<div class="scenery" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <a href="index.html" class="brand"><b></b>Mobius</a>
+    <a href="index.html" class="back">← 返回首页</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="art">
+    <span class="kicker mono">POST // 004 · 资源</span>
+    <h1>资源<span>分享站</span></h1>
+    <div class="meta">
+      <span>2026.11.21</span><i class="dot"></i>
+      <span>持续更新</span><i class="dot"></i>
+      <span>约 3 分钟</span>
+      <span class="tag">资源</span>
+    </div>
+
+    <div class="post">
+      <p class="lead">把我自己真正用过、确实省了事的东西丢在这儿。会一直加，内容慢慢累积。</p>
+
+      <p>不写“十大神器”那种清单——只用过的才放上来，每条一行说明它是干嘛的、什么时候会用到。</p>
+
+      <h2>一、学习路线</h2>
+
+      <a class="res" href="https://space.bilibili.com/383400717" target="_blank" rel="noopener">
+        <span class="res-i">01</span>
+        <span class="res-b">
+          <span class="res-t">江协科技 · 51 单片机 + STM32 标准库</span>
+          <span class="res-d">从点灯、定时器、串口讲起，寄存器一个个配。我入门就是跟着这套走完的，讲得最细。</span>
+          <span class="res-u">bilibili · 江协科技</span>
+        </span>
+      </a>
+
+      <a class="res" href="https://space.bilibili.com/3546384783233368" target="_blank" rel="noopener">
+        <span class="res-i">02</span>
+        <span class="res-b">
+          <span class="res-t">Expert 实验室 · 51 核心板 / 大师篇 STM32 核心板</span>
+          <span class="res-d">跟着从头画一块板子：原理图、PCB、焊接、调试一条龙。想练 PCB 的话，这是最省事的路径。</span>
+          <span class="res-u">bilibili · Expert 实验室</span>
+        </span>
+      </a>
+
+      <div class="res empty">
+        <span class="res-i">03</span>
+        <span class="res-b">
+          <span class="res-t">待补充</span>
+          <span class="res-d">模电 / 数电的视频课，还在挑。</span>
+        </span>
+      </div>
+
+      <h2>二、元器件与打板</h2>
+
+      <a class="res" href="https://www.szlcsc.com/" target="_blank" rel="noopener">
+        <span class="res-i">01</span>
+        <span class="res-b">
+          <span class="res-t">立创商城</span>
+          <span class="res-d">选元件的第一站：按参数筛，然后下数据手册。手册里的典型应用电路，照着画就行。</span>
+          <span class="res-u">szlcsc.com</span>
+        </span>
+      </a>
+
+      <a class="res" href="https://www.jlc.com/" target="_blank" rel="noopener">
+        <span class="res-i">02</span>
+        <span class="res-b">
+          <span class="res-t">嘉立创 · 打样</span>
+          <span class="res-d">打板就这儿。每个月有免费额度，具体规则常变，下单流程看 B 站教程最稳。</span>
+          <span class="res-u">jlc.com</span>
+        </span>
+      </a>
+
+      <a class="res" href="https://pro.lceda.cn/" target="_blank" rel="noopener">
+        <span class="res-i">03</span>
+        <span class="res-b">
+          <span class="res-t">嘉立创 EDA Pro</span>
+          <span class="res-d">我这块板就是用它画的：原理图、PCB、3D 预览、铺铜管理器都在里面。免费。</span>
+          <span class="res-u">pro.lceda.cn</span>
+        </span>
+      </a>
+
+      <h2>三、工具与软件</h2>
+
+      <a class="res" href="https://www.keil.com/download/product/" target="_blank" rel="noopener">
+        <span class="res-i">01</span>
+        <span class="res-b">
+          <span class="res-t">Keil MDK-ARM</span>
+          <span class="res-d">STM32 的官方开发环境之一。装完记得在 Pack Installer 里补 <code>STM32F4xx_DFP</code>。</span>
+          <span class="res-u">keil.com</span>
+        </span>
+      </a>
+
+      <a class="res" href="files/f407-led-template.zip" download>
+        <span class="res-i">02</span>
+        <span class="res-b">
+          <span class="res-t">STM32F407VGT6 流水灯模板（我自己打的包）</span>
+          <span class="res-d">启动文件、F4 固件库、LED 驱动、Keil 工程，双击就能开。不含器件支持包。</span>
+          <span class="res-u">本站下载 · zip · 610 KB</span>
+        </span>
+      </a>
+
+      <a class="res" href="https://www.st.com/en/development-tools/stsw-link009.html" target="_blank" rel="noopener">
+        <span class="res-i">03</span>
+        <span class="res-b">
+          <span class="res-t">ST-Link 驱动</span>
+          <span class="res-d">插上调试器不认，八成是缺它。装完设备管理器里会出现 STM32 STLink。</span>
+          <span class="res-u">st.com</span>
+        </span>
+      </a>
+
+      <div class="res empty">
+        <span class="res-i">04</span>
+        <span class="res-b">
+          <span class="res-t">待补充</span>
+          <span class="res-d">串口助手、逻辑分析仪软件、示波器上位机……用到哪个补哪个。</span>
+        </span>
+      </div>
+
+      <h2>四、我自己做的</h2>
+
+      <a class="res" href="stm32-core-board.html">
+        <span class="res-i">01</span>
+        <span class="res-b">
+          <span class="res-t">STM32F407VGT6 核心板 · 项目总结</span>
+          <span class="res-d">从原理图、PCB、焊接到 Keil 环境，一整条走完的记录，含翻车案例。</span>
+          <span class="res-u">本站文章</span>
+        </span>
+      </a>
+
+      <a class="res" href="https://mobius-msz.github.io/zhuangbushang/" target="_blank" rel="noopener">
+        <span class="res-i">02</span>
+        <span class="res-b">
+          <span class="res-t">撞不上 · 校园日程排班器</span>
+          <span class="res-d">课表、二课、作业、阳光乐跑四套系统归一，做冲突判定。纯前端，打开就能用。</span>
+          <span class="res-u">mobius-msz.github.io/zhuangbushang</span>
+        </span>
+      </a>
+
+      <a class="res" href="https://github.com/Mobius-msz/Starfire" target="_blank" rel="noopener">
+        <span class="res-i">03</span>
+        <span class="res-b">
+          <span class="res-t">《星火：渡》</span>
+          <span class="res-d">长征题材的第一人称射击原型，两个关卡，场景美术音效全程序化生成。</span>
+          <span class="res-u">github.com/Mobius-msz/Starfire</span>
+        </span>
+      </a>
+
+      <h2>五、还没整理的</h2>
+
+      <div class="res empty">
+        <span class="res-i">01</span>
+        <span class="res-b">
+          <span class="res-t">待补充</span>
+          <span class="res-d">好用的字体、配色工具、图标库。</span>
+        </span>
+      </div>
+
+      <div class="res empty">
+        <span class="res-i">02</span>
+        <span class="res-b">
+          <span class="res-t">待补充</span>
+          <span class="res-d">Markdown / 画图 / 文档工具。</span>
+        </span>
+      </div>
+
+      <div class="res empty">
+        <span class="res-i">03</span>
+        <span class="res-b">
+          <span class="res-t">待补充</span>
+          <span class="res-d">找资料的地方：手册、论坛、开源项目。</span>
+        </span>
+      </div>
+
+      <blockquote>
+        <p>这个页面会一直改。看到有用的，就往这儿丢一个。</p>
+      </blockquote>
+
+      <p class="sign">— Mobius · 2026.11.21 · 更新中</p>
+
+      <div class="tags"><span>#资源</span><span>#持续更新</span><span>#嵌入式</span><span>#工具</span></div>
+
+      <div class="act">
+        <span class="act-info" id="actInfo">还没有人点赞 · 欢迎在下面留言</span>
+        <span class="act-btns">
+          <button class="act-btn" id="likeBtn" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+            <span id="likeCount">点赞</span>
+          </button>
+          <button class="act-btn" id="cmtBtn" type="button">评论</button>
+        </span>
+      </div>
+
+      <div class="cmt" id="cmtBox">
+        <div class="cmt-head"><h3>评论</h3><span class="mono">GISCUS · 需登录 GITHUB</span></div>
+        <div id="cmtMount"></div>
+      </div>
+    </div>
+
+    <div class="end">
+      <span>END OF POST</span>
+      <a href="index.html">← 回到首页</a>
+    </div>
+  </article>
+
+  <footer class="foot">
+    <span>© 2077 Mobius</span>
+    <a href="https://github.com/Mobius-msz" target="_blank" rel="noopener">GITHUB</a>
+  </footer>
+</main>
+
+<audio id="bgm" preload="metadata"></audio>
+<button class="mbgm" id="mbgm" type="button" aria-label="音乐" hidden>♪</button>
+<script src="imgzoom.js"></script>
+<script src="music-state.js"></script>
+<script>
+(function(){
+  var SLUG = 'resources';
+  var KEY = 'mb-like-' + SLUG;
+  var n = parseInt(localStorage.getItem(KEY) || '0', 10);
+  var btn = document.getElementById('likeBtn');
+  var cnt = document.getElementById('likeCount');
+  var info = document.getElementById('actInfo');
+  function paint(){
+    var liked = localStorage.getItem(KEY + '-on') === '1';
+    cnt.textContent = n > 0 ? ('点赞 ' + n) : '点赞';
+    btn.classList.toggle('on', liked);
+    info.textContent = n > 0 ? (n + ' 人点赞 · 欢迎在下面留言') : '还没有人点赞 · 欢迎在下面留言';
+  }
+  if (btn) btn.addEventListener('click', function(){
+    var liked = localStorage.getItem(KEY + '-on') === '1';
+    n = Math.max(0, n + (liked ? -1 : 1));
+    localStorage.setItem(KEY, String(n));
+    localStorage.setItem(KEY + '-on', liked ? '0' : '1');
+    paint();
+  });
+  paint();
+
+  var g = document.getElementById('cmtMount');
+  var cb = document.getElementById('cmtBtn');
+  if (cb) cb.addEventListener('click', function(){
+    document.getElementById('cmtBox').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  if (g) {
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-repo', 'Mobius-msz/mobius-shell');
+    s.setAttribute('data-repo-id', 'R_kgDOVt-jcw');
+    s.setAttribute('data-category', 'General');
+    s.setAttribute('data-category-id', 'DIC_kwDOVt-jc84DLIhH');
+    s.setAttribute('data-mapping', 'specific');
+    s.setAttribute('data-term', 'post-' + SLUG);
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-theme', 'dark_dimmed');
+    s.setAttribute('data-lang', 'zh-CN');
+    s.setAttribute('data-loading', 'lazy');
+    g.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
