@@ -157,6 +157,7 @@ a{color:inherit;text-decoration:none}
 .cmt-alt b{color:var(--yellow);font-weight:600}
 .cmt-alt a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.4)}
 .cmt-alt .k{font:400 9.5px var(--f-mono);letter-spacing:.14em;color:var(--faint);display:block;margin-bottom:4px}
+.pv{color:var(--faint);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -178,7 +179,8 @@ a{color:inherit;text-decoration:none}
       <span>2026.11.21</span><i class="dot"></i>
       <span>持续更新</span><i class="dot"></i>
       <span>约 3 分钟</span>
-      <span class="tag">资源</span>
+      <span class="tag">资源</span><i class="dot"></i>
+      <span class="pv" id="pv" data-slug="resources" hidden></span>
     </div>
 
     <div class="post">
@@ -375,6 +377,7 @@ a{color:inherit;text-decoration:none}
 
 <audio id="bgm" preload="metadata"></audio>
 <button class="mbgm" id="mbgm" type="button" aria-label="音乐" hidden>♪</button>
+<script src="views.js"></script>
 <script src="imgzoom.js"></script>
 <script src="music-state.js"></script>
 <script>

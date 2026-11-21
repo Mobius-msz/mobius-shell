@@ -181,6 +181,7 @@ a{color:inherit;text-decoration:none}
 .cmt-alt b{color:var(--yellow);font-weight:600}
 .cmt-alt a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.4)}
 .cmt-alt .k{font:400 9.5px var(--f-mono);letter-spacing:.14em;color:var(--faint);display:block;margin-bottom:4px}
+.pv{color:var(--faint);font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -202,13 +203,12 @@ a{color:inherit;text-decoration:none}
       <span>2026.11.21</span><i class="dot"></i>
       <span>杭州</span><i class="dot"></i>
       <span>约 15 分钟</span>
-      <span class="tag">硬件</span>
+      <span class="tag">硬件</span><i class="dot"></i>
+      <span class="pv" id="pv" data-slug="stm32-core-board" hidden></span>
     </div>
 
     <div class="post">
       <p class="lead">从一张空白原理图到一块能亮的板子，中间隔着一个礼拜的拉线、两次改板，和无数个「为什么不通电」。</p>
-
-      <p>这块板子叫 <code>STM32F407VGT6_1</code>，丝印上印着 <strong>Mobius STM32F407VGT6</strong>。四层，Type-C 供电，四个按键、四个灯、一个蜂鸣器、一个 SD 卡座，外加 RTC 电池座和两排引出的 GPIO。不算复杂，但它是我第一块从原理图一路画到能跑的板子。</p>
 
       <nav class="toc" aria-label="本页目录">
         <div class="toc-head"><b>本页目录</b><span class="mono">CONTENTS</span></div>
@@ -235,7 +235,7 @@ a{color:inherit;text-decoration:none}
         <li><strong>主控</strong>：STM32F407VGT6，LQFP100，1MB Flash / 192KB RAM</li>
         <li><strong>时钟</strong>：8MHz 无源晶振走 HSE，主频拉到 168MHz；32.768kHz 给 RTC，配 CR1220 掉电走时</li>
         <li><strong>人机</strong>：SW1–SW4 四个轻触键，LED1–LED4 四个指示灯，外加一个无源蜂鸣器</li>
-        <li><strong>外设</strong>：SD 卡座（SDIO），BOOT0 跳线帽，SWD 四针调试口</li>
+        <li><strong>外设</strong>：SD 卡座（SDIO）、SWD 四针调试口、BOOT0 / BOOT1 跳线帽，另外把 USART、I2C1 / I2C2 的引脚也单独引出来了</li>
         <li><strong>扩展</strong>：两排 2.54 排针，把能引的 GPIO 全引出来</li>
       </ul>
 
@@ -245,7 +245,7 @@ a{color:inherit;text-decoration:none}
 
       <ul>
         <li><strong>限流</strong>决定你会不会「点亮一颗电容」。电流选大了，元件是真会冒烟的。</li>
-        <li><strong>封装</strong>直接决定你接下来焊接的难易程度。<strong>新手一律选 0805！！！！</strong>——别碰 0402，它比米粒还小，镊子一抖就找不着了。</li>
+        <li><strong>封装</strong>直接决定你接下来焊接的难易程度。<strong>新手一律选 0805！！！！——我连 0402 都没碰过，0603 已经小得让人手抖了。</li>
       </ul>
 
       <h3>数据手册是免费的答案</h3>
@@ -258,11 +258,19 @@ a{color:inherit;text-decoration:none}
 
       <h3>先补点原理，不然画完也不知道为什么</h3>
 
-      <p>画之前最好知道手里这颗是什么：<strong>LDO</strong>（线性降压，压差大就发烫）、<strong>Buck</strong>（开关降压，效率高但要电感）、<strong>Boost</strong>（升压）。还有各种电容的特性——陶瓷、钽、电解，容值一样、用处完全不同。</p>
+      <p>画之前最好知道手里这几颗是什么，不然图画完了也不知道为什么这么接。三种常见的电源方案，区别就在于「怎么把多余的电压处理掉」：</p>
 
-      <p>再往下是三极管和二极管：共射、共集、开关管、续流二极管、TVS……这些是模电的内容。我就是<strong>技术选考生</strong>，选修里的「电子控制技术」帮我认得这些符号、知道它们是干些什么的；但真到算偏置、挑型号，还是得回头翻书。</p>
+      <ul>
+        <li><strong>LDO</strong>（线性降压）——把多余的电压「烧」成热。外围只要两个电容，纹波小、没有开关噪声，但压差越大越烫：AMS1117 从 5V 降到 3.3V，那 1.7V 全变成了热。适合小电流、压差小的场合。</li>
+        <li><strong>Buck</strong>（开关降压）——用开关管把电压「斩」成方波，再靠电感 + 电容滤平。效率能上 90%，但外围多一个电感，纹波大、有开关噪声，布局不注意就去干扰别人。适合大电流、压差大的场合。</li>
+        <li><strong>Boost</strong>（开关升压）——反过来，把低电压泵高，同样靠电感和开关完成。</li>
+      </ul>
 
-      <h3>让画面整洁的几条规矩</h3>
+      <p>然后是电容。同样是 100nF，<strong>陶瓷</strong>高频特性好、ESR 小，专门去耦，贴在芯片电源脚旁边；<strong>钽电容</strong>容量大但怕过压，一旦失效往往是短路；<strong>电解</strong>容量最大、便宜，但高频特性差，用在储能位置。容值一样、用处完全不同——这是很多新手第一次选型时才发现的事。</p>
+
+      <p>再往下是三极管和二极管：共射放大、共集跟随、开关管——同一颗三极管，接法不同用途就不同；二极管有整流、续流、齐纳稳压、防反接、TVS 防浪涌，看的参数也各不相同。这些是模电的内容。我就是技术选考生，选修里的「电子控制技术」帮我认得这些符号、知道它们是干些什么的；但真到算偏置、挑型号，还是得回头翻书。</p>
+
+            <h3>让画面整洁的几条规矩</h3>
 
       <ul>
         <li><strong>标签朝上</strong>：所有元件的位号和参数保持同一方向，别横七竖八</li>
@@ -691,6 +699,7 @@ HAL_RCC_ClockConfig(&amp;clk, FLASH_LATENCY_5);</code></pre>
 
 <audio id="bgm" preload="metadata"></audio>
 <button class="mbgm" id="mbgm" type="button" aria-label="音乐" hidden>♪</button>
+<script src="views.js"></script>
 <script src="imgzoom.js"></script>
 <script src="music-state.js"></script>
 <script>
