@@ -397,6 +397,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .shot{position:relative;display:block;width:100%;aspect-ratio:4/3;overflow:hidden;padding:0;
   border:1px solid var(--line-soft);background:#0b0b12;cursor:pointer;transition:.3s}
+.shot video{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.shot:hover video{transform:scale(1.06)}
+.shot-play{position:absolute;inset:0;display:grid;place-items:center;z-index:2;
+  font-size:26px;color:rgba(255,255,255,.92);text-shadow:0 2px 14px rgba(0,0,0,.8);
+  background:radial-gradient(circle at 50% 50%,rgba(0,0,0,.28),transparent 62%);pointer-events:none}
+.lightbox video{display:block;background:#000;outline:none}
 .shot img{width:100%;height:100%;object-fit:cover;display:block;
   transition:transform .7s cubic-bezier(.2,.8,.2,1)}
 .shot::after{content:"";position:absolute;inset:0;pointer-events:none;
@@ -874,7 +881,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
         <p class="bio">写代码，也写信。白天在终端里修 bug，夜里在这座不会天亮的城市里整理笔记。这里存放我关于技术、设计与日常的一切残片。</p>
         <ul class="stats">
           <li><b data-count="3">03</b><span>文章</span></li>
-          <li><b data-count="38">38</b><span>照片</span></li>
+          <li><b data-count="46">46</b><span>照片</span></li>
           <li><b data-count="8">08</b><span>曲目</span></li>
         </ul>
         <div class="p-foot">
@@ -926,7 +933,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       </div>
       <div class="dash-tile">
         <div class="dash-k">收录照片</div>
-        <div class="dash-v">38</div>
+        <div class="dash-v">46</div>
         <div class="dash-s">试着拍好的</div>
       </div>
       <div class="dash-tile">
@@ -1162,7 +1169,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
     <div class="page" id="page-photos">
     <section class="sec" id="photos">
-      <div class="sec-head"><h2><i>IMG//03</i>照片墙</h2><a href="#" id="shotCount">[ 38 SHOTS ]</a></div>
+      <div class="sec-head"><h2><i>IMG//03</i>照片墙</h2><a href="#" id="shotCount">[ 46 SHOTS ]</a></div>
       <div class="gal-tabs" id="galTabs">
         <button class="on" data-cat="all">全部</button>
         <button data-cat="life">生活</button>
@@ -1493,6 +1500,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   <button class="lb-btn lb-next" id="lbNext" aria-label="下一张">›</button>
   <figure>
     <img id="lbImg" alt="">
+    <video id="lbVid" controls playsinline preload="metadata" style="display:none;max-width:86vw;max-height:76vh"></video>
     <figcaption id="lbCap"></figcaption>
   </figure>
   <div class="lb-tools">
@@ -2024,6 +2032,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     { f: 'pcb-eda.jpg',        c: 'lab',    t: '立创EDA · 布局' },
     { f: 'pcb-layout.jpg',     c: 'lab',    t: 'PCB · 走线与铺铜' },
     { f: 'pcb-board.jpg',      c: 'lab',    t: '三块板子到手' },
+    { f: 'g-pcb.jpg',          c: 'lab',    t: '核心板 · PCB 顶层' },
+    { f: 'g-board.jpg',        c: 'lab',    t: '核心板 · 实物' },
+    { f: 'g-board.mp4',        c: 'lab',    t: '上电点灯', v: true },
+    { f: 'g-pk1.jpg',          c: 'lab',    t: '排得开 · 仪表盘' },
+    { f: 'g-pk2.jpg',          c: 'lab',    t: '排得开 · 首页' },
     { f: 'dinner.jpg',         c: 'play',   t: '班级聚餐' },
     { f: 'dojo.jpg',           c: 'play',   t: '道馆的垫子' },
     { f: 'desk.jpg',           c: 'play',   t: '桌面 · 青蛙和兔子' },
@@ -2035,6 +2048,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     { f: 'spirit.jpg',         c: 'play',   t: 'Team Spirit · 夺冠' },
     { f: 'donk.jpg',           c: 'play',   t: 'donk · BLAST MVP' },
     { f: 'roster.jpg',         c: 'play',   t: 'Spirit · 上台' },
+    { f: 'g-mc1.jpg',          c: 'play',   t: '横开的小屋' },
+    { f: 'g-mc2.jpg',          c: 'play',   t: '夜里的基地' },
+    { f: 'g-mc3.jpg',          c: 'play',   t: '被 sbqod9176 杀死' },
     { f: 'notes-1.jpg',        c: 'memory', t: '同学留言 · 其一' },
     { f: 'notes-2.jpg',        c: 'memory', t: '同学留言 · 其二' },
     { f: 'notes-3.jpg',        c: 'memory', t: '同学留言 · 其三' },
@@ -2064,8 +2080,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
               + '<span class="mono">GRADUATION BOOK</span><b>毕业留言簿</b>'
               + '<i>9 PAGES · 2026.6</i></div>';
       }
-      ghtml += '<button class="shot" data-cat="' + s.c + '" data-i="' + gi + '" aria-label="' + s.t + '">'
-            + '<img src="img/' + s.f + '" alt="' + s.t + '" loading="lazy" decoding="async">'
+      var media = s.v
+        ? '<video src="img/' + s.f + '" poster="img/' + s.f.replace(/\.mp4$/, '-poster.jpg') + '" muted playsinline preload="metadata"></video><span class="shot-play">▶</span>'
+        : '<img src="img/' + s.f + '" alt="' + s.t + '" loading="lazy" decoding="async">';
+      ghtml += '<button class="shot' + (s.v ? ' is-video' : '') + '" data-cat="' + s.c + '" data-i="' + gi + '" aria-label="' + s.t + '">'
+            + media
             + '<span class="shot-cap">' + s.t + '</span></button>';
     }
     galGrid.innerHTML = ghtml;
@@ -2098,6 +2117,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     /* 大图 */
     var lb = document.getElementById('lightbox');
     var lbImg = document.getElementById('lbImg');
+    var lbVid = document.getElementById('lbVid');
     var lbCap = document.getElementById('lbCap');
     var lbZoomEl = document.getElementById('lbZoom');
     var curPos = 0;
@@ -2144,8 +2164,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       if (!visible.length) return;
       curPos = (pos + visible.length) % visible.length;
       var s = SHOTS[visible[curPos]];
-      lbImg.src = 'img/' + s.f;
-      lbImg.alt = s.t;
+      if (s.v) {
+        lbImg.style.display = 'none';
+        lbVid.style.display = 'block';
+        lbVid.src = 'img/' + s.f;
+        lbVid.play().catch(function(){});
+      } else {
+        lbVid.style.display = 'none';
+        lbVid.pause();
+        lbVid.removeAttribute('src');
+        lbImg.style.display = '';
+        lbImg.src = 'img/' + s.f;
+        lbImg.alt = s.t;
+      }
       lbCap.textContent = '[' + CATNAME[s.c] + '] ' + s.t;
       lb.classList.add('on');
       document.body.style.overflow = 'hidden';
@@ -2154,6 +2185,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     var closeLb = function(){
       lb.classList.remove('on');
       document.body.style.overflow = '';
+      if (lbVid) lbVid.pause();
     };
 
     galGrid.addEventListener('click', function(e){
