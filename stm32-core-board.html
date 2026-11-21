@@ -88,6 +88,21 @@ a{color:inherit;text-decoration:none}
 .post a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.45)}
 .post a:hover{background:rgba(252,238,10,.12)}
 
+/* 目录 */
+.toc{margin:32px 0 6px;border:1px solid var(--line-soft);
+  background:linear-gradient(160deg,#0e0e16,#08080d 60%);padding:18px 20px}
+.toc-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:13px}
+.toc-head b{font:600 14px var(--f-ui);letter-spacing:.04em;color:var(--ink)}
+.toc-head .mono{font:400 9.5px var(--f-mono);letter-spacing:.2em;color:var(--faint)}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:9px 22px}
+.toc li{display:flex;align-items:baseline;gap:9px;min-width:0}
+.toc li i{font:400 9.5px var(--f-mono);color:var(--yellow);opacity:.7;flex:none}
+.toc a{font:400 13px/1.5 var(--f-ui);color:var(--dim);transition:.2s;white-space:nowrap}
+.toc a:hover{color:var(--yellow)}
+.toc .s{margin-left:auto;font:400 9.5px var(--f-mono);color:var(--faint);
+  letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post h2,.post h3{scroll-margin-top:86px}
+
 /* 图片 / 视频 / 代码块 */
 .post figure{margin:26px 0}
 .post figure img{width:100%;display:block;border:1px solid var(--line-soft);background:#0b0b12}
@@ -178,12 +193,23 @@ a{color:inherit;text-decoration:none}
 
       <p>这块板子叫 <code>STM32F407VGT6_1</code>，丝印上印着 <strong>Mobius STM32F407VGT6</strong>。四层，Type-C 供电，四个按键、四个灯、一个蜂鸣器、一个 SD 卡座，外加 RTC 电池座和两排引出的 GPIO。不算复杂，但它是我第一块从原理图一路画到能跑的板子。</p>
 
+      <nav class="toc" aria-label="本页目录">
+        <div class="toc-head"><b>本页目录</b><span class="mono">CONTENTS</span></div>
+        <ol>
+          <li><i>01</i><a href="#sch">一、原理图设计</a><span class="s">选型 · 手册 · 画法</span></li>
+          <li><i>02</i><a href="#pcb">二、PCB 设计</a><span class="s">层叠 · 布局 · 走线 · 铺铜</span></li>
+          <li><i>03</i><a href="#weld">三、焊接技巧</a><span class="s">工具 · 芯片 · 返工</span></li>
+          <li><i>04</i><a href="#keil">四、Keil 环境配置</a><span class="s">工程 · 时钟 · 报错</span></li>
+          <li><i>05</i><a href="#start">入门路线</a><span class="s">江协 · Expert · ASC</span></li>
+        </ol>
+      </nav>
+
       <figure>
         <img src="img/board-cover.jpg" alt="STM32F407VGT6 核心板 PCB 顶层">
         <figcaption>顶层铜皮与丝印：45° 摆放的主控、一排按键、Type-C、SD 卡座与两排引出的 GPIO</figcaption>
       </figure>
 
-      <h2>一、原理图设计</h2>
+      <h2 id="sch">一、原理图设计</h2>
 
       <p>开工之前先写功能清单，不写清单就动手，画到一半一定会发现少个上拉、多个电容。我的清单最后收敛成这样：</p>
 
@@ -262,7 +288,7 @@ a{color:inherit;text-decoration:none}
 
       <p class="note">图是嘉立创 EDA 导出的多页拼图，缩小看会糊——点开原图能看清网络标号。标题栏上的创建日期是 2026-11-17，版本 V1.0。</p>
 
-      <h2>二、PCB 设计</h2>
+      <h2 id="pcb">二、PCB 设计</h2>
 
       <h3>先画板框，再定层数</h3>
 
@@ -424,7 +450,7 @@ a{color:inherit;text-decoration:none}
         <li>DRC 会报“未连接”，但“连错网络”它不一定报，这部分只能靠人眼</li>
       </ul>
 
-      <h2>三、焊接技巧与心得</h2>
+      <h2 id="weld">三、焊接技巧与心得</h2>
 
       <h3>工具和姿势</h3>
 
@@ -534,7 +560,7 @@ a{color:inherit;text-decoration:none}
 
       <p>第一次焊接很难，但相信我，当你点灯的那一瞬间，一切都值得。</p>
 
-      <h2>四、STM32F407 系列 Keil 环境配置</h2>
+      <h2 id="keil">四、STM32F407 系列 Keil 环境配置</h2>
 
       <p>硬件跑通只是第一步，软件环境不对，板子照样一动不动。这部分我按顺序记一下，换台电脑能照着装。</p>
 
@@ -589,7 +615,7 @@ HAL_RCC_ClockConfig(&amp;clk, FLASH_LATENCY_5);</code></pre>
       <blockquote>
         <p>一句话总结：硬件上电之前先测短路，软件下载之前先对时钟。</p>
       </blockquote>
-      <h3>入门路线：先把这些过一遍</h3>
+      <h3 id="start">入门路线：先把这些过一遍</h3>
 
       <p>这块板子不是从零开始的。在画它之前，我先把基础补了一轮，顺序大概是这样：</p>
 
