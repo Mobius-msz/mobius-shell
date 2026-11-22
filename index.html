@@ -780,6 +780,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .cmt-alt b{color:var(--yellow);font-weight:600}
 .cmt-alt a{color:var(--yellow);border-bottom:1px solid rgba(252,238,10,.4)}
 .cmt-alt .k{font:400 9.5px var(--f-mono);letter-spacing:.14em;color:var(--faint);display:block;margin-bottom:4px}
+.p-meta .pv{font:400 9.5px var(--f-mono);letter-spacing:.08em;color:var(--faint)}
+.p-meta .pv:empty{display:none}
 </style>
 </head>
 <body>
@@ -1024,7 +1026,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
               <span class="badge mono">开篇</span>
               <h3>Welcome to Mobius Shell</h3>
               <p>第一篇文章。为什么我要在这座城市里，给自己造一个壳。</p>
-              <div class="p-meta"><span>2026.11.14</span><i class="dot"></i><span class="tag">开篇</span><span class="read">READ →</span></div>
+              <div class="p-meta"><span>2026.11.14</span><i class="dot"></i><span class="tag">开篇</span><i class="dot"></i><span class="pv" data-pv="welcome"></span><span class="read">READ →</span></div>
             </div>
           </a>
         </article>
@@ -1035,7 +1037,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
               <span class="badge mono">硬件</span>
               <h3>STM32F407VGT6 核心板项目总结</h3>
               <p>原理图、PCB、焊接、Keil 环境配置——第一块从画到亮的板子。</p>
-              <div class="p-meta"><span>2026.11.21</span><i class="dot"></i><span class="tag">硬件</span><span class="read">READ →</span></div>
+              <div class="p-meta"><span>2026.11.21</span><i class="dot"></i><span class="tag">硬件</span><i class="dot"></i><span class="pv" data-pv="stm32-core-board"></span><span class="read">READ →</span></div>
             </div>
           </a>
         </article>
@@ -1044,14 +1046,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
             <span class="slim-idx mono">03 / 关于</span>
             <h3>About Mobius</h3>
             <p>我是谁：入学以来做过的小东西、魔方、游戏，一页写完。</p>
-            <div class="p-meta"><span>2026.11.14</span><i class="dot"></i><span class="tag">关于</span></div>
+            <div class="p-meta"><span>2026.11.14</span><i class="dot"></i><span class="tag">关于</span><i class="dot"></i><span class="pv" data-pv="about"></span></div>
           </div></a></article>
         <article class="post slim" data-kind="tech" data-tags="资源 工具 学习"><a href="resources.html">
           <div class="p-body">
             <span class="slim-idx mono">04 / 资源</span>
             <h3>资源分享站</h3>
             <p>学习路线、选型打板、工具软件——用过才放上来，持续更新。</p>
-            <div class="p-meta"><span>2026.11.21</span><i class="dot"></i><span class="tag">资源</span></div>
+            <div class="p-meta"><span>2026.11.21</span><i class="dot"></i><span class="tag">资源</span><i class="dot"></i><span class="pv" data-pv="resources"></span></div>
           </div></a></article>
         <article class="post slim" data-kind="essay" data-tags="待写 空位"><div class="inner">
           <div class="p-body">
@@ -2619,6 +2621,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   addEventListener('keydown', function(e){
     if (e.key === '/' && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
   });
+})();
+</script>
+
+<script>
+(function(){
+  function drop(el){
+    var prev = el.previousElementSibling;
+    if (prev && prev.classList.contains('dot')) prev.remove();
+    el.remove();
+  }
+  var els = document.querySelectorAll('[data-pv]');
+  for (var i = 0; i < els.length; i++) {
+    (function (el) {
+      fetch('https://abacus.jasoncameron.dev/get/mobius-wang/' + el.getAttribute('data-pv'), { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d && typeof d.value === 'number' && d.value > 0) {
+            el.textContent = '\u9605\u8bfb ' + d.value;
+          } else {
+            drop(el);
+          }
+        })
+        .catch(function () { drop(el); });
+    })(els[i]);
+  }
 })();
 </script>
 </body>
