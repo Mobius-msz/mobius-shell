@@ -236,8 +236,18 @@ a{color:inherit;text-decoration:none}
         <li><strong>时钟</strong>：8MHz 无源晶振走 HSE，主频拉到 168MHz；32.768kHz 给 RTC，配 CR1220 掉电走时</li>
         <li><strong>人机</strong>：SW1–SW4 四个轻触键，LED1–LED4 四个指示灯，外加一个无源蜂鸣器</li>
         <li><strong>外设</strong>：SD 卡座（SDIO）、SWD 四针调试口、BOOT0 / BOOT1 跳线帽，另外把 USART、I2C1 / I2C2 的引脚也单独引出来了</li>
+        <li><strong>存储</strong>：EEPROM <code>AT24C256C</code>（I2C，32KB）+ SPI Flash <code>W25Q128JVSIQ</code>（16MB）</li>
         <li><strong>扩展</strong>：两排 2.54 排针，把能引的 GPIO 全引出来</li>
       </ul>
+
+            <p>清单里那两颗存储芯片，名字看着像乱码，其实分工很清楚——都是「掉电不丢」，但用的地方完全不同：</p>
+
+      <ul>
+        <li><code>AT24C256C</code>（<strong>EEPROM</strong>，走 I2C）——256Kbit，也就是 32KB。它能<strong>按字节改写</strong>、擦写寿命在百万次量级，适合存「几个字节的配置」：校准值、亮度、密码、掉电前最后一次的状态。缺点是慢、容量小。</li>
+        <li><code>W25Q128JVSIQ</code>（<strong>NOR Flash</strong>，走 SPI）——128Mbit，也就是 16MB。容量大、读起来快，但写之前必须<strong>先擦整个扇区（4KB）</strong>，擦写寿命只有十万次量级。适合存字库、图片、日志、固件备份这类「一大块数据」。</li>
+      </ul>
+
+      <p>一句话：<strong>EEPROM 管参数，Flash 管大文件</strong>。所以很多板子上两颗都放，各管各的。</p>
 
       <h3>器件选型：先看限流，再看封装</h3>
 
@@ -579,7 +589,7 @@ a{color:inherit;text-decoration:none}
 
       <p>VCAP 这路是 STM32F407 的内部稳压器输出，它是硅片里的模拟电路：<strong>只要 VDD–VSS 在 1.8–3.6V，VCAP 就必然是 1.2V——不依赖软件、不依赖复位、不依赖 SWD</strong>。三项都对，结论只剩一个：芯片里的这部分坏了。</p>
 
-      <p>后来才知道怎么回事——淘宝上“全新原装”20–30 元的 F407，基本是<strong>拆机芯片</strong>（从旧板上吹下来重新磨亮、改丝印的）。这类芯片常见表现就是：VCAP 不是 1.2V、丝印模糊、引脚镀层不匀，以及——<strong>有时候能用，有时候完全不理人</strong>。</p>
+      <p>后来才知道怎么回事——淘宝上“全新原装”十几块钱的 F407，基本是<strong>拆机芯片</strong>（从旧板上吹下来重新磨亮、改丝印的）。这类芯片常见表现就是：VCAP 不是 1.2V、丝印模糊、引脚镀层不匀，以及——<strong>有时候能用，有时候完全不理人</strong>。</p>
       <p>后来把芯片转正、重新焊了一遍，灯就亮了。所以那次「假芯片」的怀疑，一半是被方向坑的，一半是淘宝的锅。</p>
 
       <p class="note">所以买芯片请认准正规渠道，贵几十块钱，但能把“芯片问题”这个变量完全排除掉。调试最怕的不是错，是<strong>你根本不知道自己在查一个真的错误还是假的错误</strong>。</p>
